@@ -1,0 +1,6 @@
+{
+	"parent": "minecraft:block/leaves",
+	"textures": {
+		"all": "rainbowchristmas:block/white_holiday_leaves"
+	}
+}

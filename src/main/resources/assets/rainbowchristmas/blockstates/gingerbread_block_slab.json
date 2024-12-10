@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "rainbowchristmas:block/gingerbread_block_slab"
+    },
+    "type=double": {
+      "model": "rainbowchristmas:block/gingerbread_block_slab_double"
+    },
+    "type=top": {
+      "model": "rainbowchristmas:block/gingerbread_block_slab_top"
+    }
+  }
+}

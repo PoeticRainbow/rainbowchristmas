@@ -1,0 +1,6 @@
+{
+	"parent": "rainbowchristmas:block/template_ornament_wall",
+	"textures": {
+		"ornament": "rainbowchristmas:block/green_ornament"
+	}
+}

@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_hard_candy_tiles": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "rainbowchristmas:hard_candy_tiles"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "rainbowchristmas:hard_candy_tile_slab"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_hard_candy_tiles",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "rainbowchristmas:hard_candy_tile_slab"
+    ]
+  },
+  "sends_telemetry_event": false
+}

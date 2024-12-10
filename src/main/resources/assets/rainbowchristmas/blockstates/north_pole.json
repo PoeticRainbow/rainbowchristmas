@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "shape=bottom": {
+      "model": "rainbowchristmas:block/north_pole_bottom"
+    },
+    "shape=middle": {
+      "model": "rainbowchristmas:block/north_pole_middle"
+    },
+    "shape=top": {
+      "model": "rainbowchristmas:block/north_pole_top"
+    },
+    "shape=full": {
+      "model": "rainbowchristmas:block/north_pole_full"
+    }
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "id": "rainbowchristmas",
+  "version": "${version}",
+  "name": "Rainbow Christmas",
+  "description": "Time to get festive!",
+  "authors": ["PoeticRainbow"],
+  "contact": {
+    "homepage": "modrinth link when available",
+    "sources": "github link when available",
+    "issues": "github issues link when available"
+  },
+  "license": "All-Rights-Reserved",
+  "icon": "assets/rainbowchristmas/icon.png",
+  "entrypoints": {
+    "main": ["poeticrainbow.rainbowchristmas.RainbowChristmas"],
+    "client": ["poeticrainbow.rainbowchristmas.RainbowChristmas"],
+    "fabric-datagen": [
+      "poeticrainbow.rainbowchristmas.gen.ModDataGenerator"
+    ]
+  },
+  "mixins": [
+    "rainbowchristmas.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric": "*",
+    "minecraft": "${minecraft_version}"
+  }
+}

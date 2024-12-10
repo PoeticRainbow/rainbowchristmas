@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_clear_ornament": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "rainbowchristmas:clear_ornament"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "rainbowchristmas:red_ornament"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_clear_ornament",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "rainbowchristmas:red_ornament"
+    ]
+  },
+  "sends_telemetry_event": false
+}

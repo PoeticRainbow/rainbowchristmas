@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/outer_stairs",
+  "textures": {
+    "bottom": "rainbowchristmas:block/gingerbread_shingles",
+    "side": "rainbowchristmas:block/gingerbread_shingles",
+    "top": "rainbowchristmas:block/gingerbread_shingles"
+  }
+}

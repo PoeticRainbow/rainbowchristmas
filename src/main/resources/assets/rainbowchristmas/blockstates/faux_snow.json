@@ -1,0 +1,105 @@
+{
+  "variants": {
+    "shape=full": {
+      "model": "rainbowchristmas:block/faux_snow"
+    },
+    "shape=slab": {
+      "model": "rainbowchristmas:block/faux_snow_slab"
+    },
+    "facing=north,shape=straight_stair": {
+      "uvlock": true,
+      "model": "rainbowchristmas:block/faux_snow_stair",
+      "y": 270
+    },
+    "facing=east,shape=straight_stair": {
+      "uvlock": true,
+      "model": "rainbowchristmas:block/faux_snow_stair"
+    },
+    "facing=south,shape=straight_stair": {
+      "uvlock": true,
+      "model": "rainbowchristmas:block/faux_snow_stair",
+      "y": 90
+    },
+    "facing=west,shape=straight_stair": {
+      "uvlock": true,
+      "model": "rainbowchristmas:block/faux_snow_stair",
+      "y": 180
+    },
+    "facing=north,shape=inner_left_stair": {
+      "uvlock": true,
+      "model": "rainbowchristmas:block/faux_snow_inner_left_stair",
+      "y": 270
+    },
+    "facing=east,shape=inner_left_stair": {
+      "uvlock": true,
+      "model": "rainbowchristmas:block/faux_snow_inner_left_stair"
+    },
+    "facing=south,shape=inner_left_stair": {
+      "uvlock": true,
+      "model": "rainbowchristmas:block/faux_snow_inner_left_stair",
+      "y": 90
+    },
+    "facing=west,shape=inner_left_stair": {
+      "uvlock": true,
+      "model": "rainbowchristmas:block/faux_snow_inner_left_stair",
+      "y": 180
+    },
+    "facing=north,shape=inner_right_stair": {
+      "uvlock": true,
+      "model": "rainbowchristmas:block/faux_snow_inner_right_stair",
+      "y": 270
+    },
+    "facing=east,shape=inner_right_stair": {
+      "uvlock": true,
+      "model": "rainbowchristmas:block/faux_snow_inner_right_stair"
+    },
+    "facing=south,shape=inner_right_stair": {
+      "uvlock": true,
+      "model": "rainbowchristmas:block/faux_snow_inner_right_stair",
+      "y": 90
+    },
+    "facing=west,shape=inner_right_stair": {
+      "uvlock": true,
+      "model": "rainbowchristmas:block/faux_snow_inner_right_stair",
+      "y": 180
+    },
+    "facing=north,shape=outer_left_stair": {
+      "uvlock": true,
+      "model": "rainbowchristmas:block/faux_snow_outer_left_stair",
+      "y": 270
+    },
+    "facing=east,shape=outer_left_stair": {
+      "uvlock": true,
+      "model": "rainbowchristmas:block/faux_snow_outer_left_stair"
+    },
+    "facing=south,shape=outer_left_stair": {
+      "uvlock": true,
+      "model": "rainbowchristmas:block/faux_snow_outer_left_stair",
+      "y": 90
+    },
+    "facing=west,shape=outer_left_stair": {
+      "uvlock": true,
+      "model": "rainbowchristmas:block/faux_snow_outer_left_stair",
+      "y": 180
+    },
+    "facing=north,shape=outer_right_stair": {
+      "uvlock": true,
+      "model": "rainbowchristmas:block/faux_snow_outer_right_stair",
+      "y": 270
+    },
+    "facing=east,shape=outer_right_stair": {
+      "uvlock": true,
+      "model": "rainbowchristmas:block/faux_snow_outer_right_stair"
+    },
+    "facing=south,shape=outer_right_stair": {
+      "uvlock": true,
+      "model": "rainbowchristmas:block/faux_snow_outer_right_stair",
+      "y": 90
+    },
+    "facing=west,shape=outer_right_stair": {
+      "uvlock": true,
+      "model": "rainbowchristmas:block/faux_snow_outer_right_stair",
+      "y": 180
+    }
+  }
+}

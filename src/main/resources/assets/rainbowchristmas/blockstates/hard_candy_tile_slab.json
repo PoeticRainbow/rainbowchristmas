@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "rainbowchristmas:block/hard_candy_tile_slab"
+    },
+    "type=double": {
+      "model": "rainbowchristmas:block/hard_candy_tile_slab_double"
+    },
+    "type=top": {
+      "model": "rainbowchristmas:block/hard_candy_tile_slab_top"
+    }
+  }
+}

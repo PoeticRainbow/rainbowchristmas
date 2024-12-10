@@ -1,0 +1,14 @@
+{
+  "variants": {
+    "axis=x": {
+      "model": "rainbowchristmas:block/hard_candy_pillar_horizontal",
+      "y": 90
+    },
+    "axis=y": {
+      "model": "rainbowchristmas:block/hard_candy_pillar"
+    },
+    "axis=z": {
+      "model": "rainbowchristmas:block/hard_candy_pillar_horizontal"
+    }
+  }
+}

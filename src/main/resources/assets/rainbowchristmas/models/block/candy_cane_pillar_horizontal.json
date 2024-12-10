@@ -1,0 +1,7 @@
+{
+	"parent": "rainbowchristmas:block/template_pillar_horizontal",
+	"textures": {
+		"end": "rainbowchristmas:block/candy_cane_tiles",
+		"side": "rainbowchristmas:block/candy_cane_pillar"
+	}
+}

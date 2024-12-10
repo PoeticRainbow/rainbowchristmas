@@ -1,0 +1,6 @@
+{
+	"parent": "rainbowchristmas:block/template_christmas_lights",
+	"textures": {
+		"all": "rainbowchristmas:block/gray_christmas_lights"
+	}
+}

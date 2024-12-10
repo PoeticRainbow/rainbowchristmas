@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "count=1": {
+      "model": "rainbowchristmas:block/icicle"
+    },
+    "count=2": {
+      "model": "rainbowchristmas:block/icicle_two"
+    },
+    "count=3": {
+      "model": "rainbowchristmas:block/icicle_three"
+    },
+    "count=4": {
+      "model": "rainbowchristmas:block/icicle_four"
+    }
+  }
+}

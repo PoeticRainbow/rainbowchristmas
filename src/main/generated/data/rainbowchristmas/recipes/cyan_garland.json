@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": {
+      "tag": "minecraft:leaves"
+    },
+    "$": {
+      "item": "minecraft:string"
+    },
+    "X": {
+      "item": "minecraft:cyan_dye"
+    }
+  },
+  "pattern": [
+    "$X$",
+    "###"
+  ],
+  "result": {
+    "count": 6,
+    "item": "rainbowchristmas:cyan_garland"
+  },
+  "show_notification": true
+}

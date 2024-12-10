@@ -1,0 +1,6 @@
+{
+	"parent": "minecraft:block/cross",
+	"textures": {
+		"cross": "rainbowchristmas:block/star_topper"
+	}
+}

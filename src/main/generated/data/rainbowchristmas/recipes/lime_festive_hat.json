@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "#": {
+      "tag": "minecraft:wool"
+    },
+    "$": {
+      "item": "minecraft:lime_dye"
+    }
+  },
+  "pattern": [
+    "###",
+    "#$#"
+  ],
+  "result": {
+    "item": "rainbowchristmas:lime_festive_hat"
+  },
+  "show_notification": true
+}

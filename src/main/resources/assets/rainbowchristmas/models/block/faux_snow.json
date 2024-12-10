@@ -1,0 +1,38 @@
+{
+	"credit": "Made with Blockbench",
+	"parent": "minecraft:block/cube",
+	"textures": {
+		"0": "rainbowchristmas:block/faux_snow",
+		"1": "rainbowchristmas:block/faux_snow_side",
+		"particle": "rainbowchristmas:block/faux_snow"
+	},
+	"elements": [
+		{
+			"from": [-0.06, 0, -0.06],
+			"to": [16.06, 2.015, 16.06],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, -0.50375, 8]},
+			"faces": {
+				"up": {"uv": [0, 0, 16, 16], "texture": "#0"},
+				"down": {"uv": [0, 0, 16, 16], "texture": "#0", "cullface": "down"}
+			}
+		},
+		{
+			"from": [-0.06, -6.045, -0.06],
+			"to": [16.06, 2.015, 16.06],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, -0.50375, 8]},
+			"faces": {
+				"north": {"uv": [0, 0, 16, 8], "texture": "#1", "cullface": "north"},
+				"east": {"uv": [0, 0, 16, 8], "texture": "#1", "cullface": "east"},
+				"south": {"uv": [0, 0, 16, 8], "texture": "#1", "cullface": "south"},
+				"west": {"uv": [0, 0, 16, 8], "texture": "#1", "cullface": "west"}
+			}
+		}
+	],
+	"display": {
+		"gui": {
+			"rotation": [30, 225, 0],
+			"translation": [0, 5, 0],
+			"scale": [0.625, 0.625, 0.625]
+		}
+	}
+}

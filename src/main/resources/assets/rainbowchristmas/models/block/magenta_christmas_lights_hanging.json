@@ -1,0 +1,6 @@
+{
+	"parent": "rainbowchristmas:block/template_christmas_lights_hanging",
+	"textures": {
+		"all": "rainbowchristmas:block/magenta_christmas_lights"
+	}
+}

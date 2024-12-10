@@ -1,0 +1,29 @@
+{
+	"credit": "Made with Blockbench",
+	"textures": {
+		"0": "rainbowchristmas:block/faux_snow",
+		"1": "rainbowchristmas:block/faux_snow_side",
+		"particle": "rainbowchristmas:block/faux_snow"
+	},
+	"elements": [
+		{
+			"from": [-0.06, -8.06, -0.06],
+			"to": [16.06, -6.045, 16.06],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, -8.56375, 8]},
+			"faces": {
+				"up": {"uv": [0.032, 0.032, 15.968, 15.968], "texture": "#0"}
+			}
+		},
+		{
+			"from": [-0.06, -14.105, -0.06],
+			"to": [16.06, -6.045, 16.06],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, -8.56375, 8]},
+			"faces": {
+				"north": {"uv": [0.032, 0.032, 15.968, 7.968], "texture": "#1", "cullface": "north"},
+				"east": {"uv": [0.032, 0.032, 15.968, 7.968], "texture": "#1", "cullface": "east"},
+				"south": {"uv": [0.032, 0.032, 15.968, 7.968], "texture": "#1", "cullface": "south"},
+				"west": {"uv": [0.032, 0.032, 15.968, 7.968], "texture": "#1", "cullface": "west"}
+			}
+		}
+	]
+}

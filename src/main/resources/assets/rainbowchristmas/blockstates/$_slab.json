@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "rainbowchristmas:block/$_slab"
+    },
+    "type=double": {
+      "model": "rainbowchristmas:block/$_slab_double"
+    },
+    "type=top": {
+      "model": "rainbowchristmas:block/$_slab_top"
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": {
+      "item": "minecraft:glass_bottle"
+    },
+    "$": {
+      "item": "minecraft:string"
+    },
+    "X": {
+      "item": "minecraft:amethyst_shard"
+    }
+  },
+  "pattern": [
+    "$X$",
+    "###"
+  ],
+  "result": {
+    "count": 6,
+    "item": "rainbowchristmas:multicolor_christmas_lights"
+  },
+  "show_notification": true
+}

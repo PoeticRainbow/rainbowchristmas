@@ -1,0 +1,25 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "rainbowchristmas:block/light_blue_ornament_wall"
+    },
+    "facing=east": {
+      "model": "rainbowchristmas:block/light_blue_ornament_wall",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "rainbowchristmas:block/light_blue_ornament_wall",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "rainbowchristmas:block/light_blue_ornament_wall",
+      "y": 270
+    },
+    "facing=up": {
+      "model": "rainbowchristmas:block/light_blue_ornament_floor"
+    },
+    "facing=down": {
+      "model": "rainbowchristmas:block/light_blue_ornament_hanging"
+    }
+  }
+}

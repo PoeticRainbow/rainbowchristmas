@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "#": {
+      "tag": "minecraft:wool"
+    },
+    "$": {
+      "item": "minecraft:gray_dye"
+    }
+  },
+  "pattern": [
+    "###",
+    "#$#"
+  ],
+  "result": {
+    "item": "rainbowchristmas:gray_festive_hat"
+  },
+  "show_notification": true
+}

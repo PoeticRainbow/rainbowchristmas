@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "rainbowchristmas:item/light_blue_festive_hat"
+  }
+}

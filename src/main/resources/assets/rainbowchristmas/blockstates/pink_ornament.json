@@ -1,0 +1,25 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "rainbowchristmas:block/pink_ornament_wall"
+    },
+    "facing=east": {
+      "model": "rainbowchristmas:block/pink_ornament_wall",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "rainbowchristmas:block/pink_ornament_wall",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "rainbowchristmas:block/pink_ornament_wall",
+      "y": 270
+    },
+    "facing=up": {
+      "model": "rainbowchristmas:block/pink_ornament_floor"
+    },
+    "facing=down": {
+      "model": "rainbowchristmas:block/pink_ornament_hanging"
+    }
+  }
+}

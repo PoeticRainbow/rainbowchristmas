@@ -1,0 +1,24 @@
+{
+	"credit": "Made with Blockbench",
+	"parent": "minecraft:block/block",
+	"textures": {
+		"top": "rainbowchristmas:block/candy_cane_tiles",
+		"particle": "rainbowchristmas:block/north_pole_side",
+		"pole": "rainbowchristmas:block/north_pole_side"
+	},
+	"elements": [
+		{
+			"from": [4, 0, 4],
+			"to": [12, 16, 12],
+			"rotation": {"angle": 0, "axis": "y", "origin": [4, 0, 4]},
+			"faces": {
+				"north": {"uv": [4, 0, 12, 16], "texture": "#pole"},
+				"east": {"uv": [4, 0, 12, 16], "texture": "#pole"},
+				"south": {"uv": [4, 0, 12, 16], "texture": "#pole"},
+				"west": {"uv": [4, 0, 12, 16], "texture": "#pole"},
+				"up": {"uv": [8, 0, 16, 8], "texture": "#top", "cullface": "up"},
+				"down": {"uv": [8, 0, 16, 8], "texture": "#top", "cullface": "down"}
+			}
+		}
+	]
+}

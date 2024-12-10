@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": {
+      "tag": "rainbowchristmas:ornament"
+    },
+    "X": {
+      "item": "minecraft:light_gray_dye"
+    }
+  },
+  "pattern": [
+    " # ",
+    "#X#",
+    " # "
+  ],
+  "result": {
+    "count": 4,
+    "item": "rainbowchristmas:light_gray_ornament"
+  },
+  "show_notification": true
+}

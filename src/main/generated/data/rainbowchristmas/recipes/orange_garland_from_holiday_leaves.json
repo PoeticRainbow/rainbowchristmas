@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": {
+      "item": "rainbowchristmas:orange_holiday_leaves"
+    },
+    "$": {
+      "item": "minecraft:string"
+    }
+  },
+  "pattern": [
+    "$ $",
+    "###"
+  ],
+  "result": {
+    "count": 6,
+    "item": "rainbowchristmas:orange_garland"
+  },
+  "show_notification": true
+}

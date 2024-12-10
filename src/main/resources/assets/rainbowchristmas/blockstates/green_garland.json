@@ -1,0 +1,50 @@
+{
+  "multipart": [
+    {
+      "apply": {
+        "model": "rainbowchristmas:block/green_garland_hanging"
+      }, 
+      "when": {
+        "north": false,
+        "east": false,
+        "south": false,
+        "west": false
+      }
+    },
+    {
+      "apply": {
+        "model": "rainbowchristmas:block/green_garland",
+        "y": 180
+      }, 
+      "when": {
+        "north": true
+      }
+    },
+    {
+      "apply": {
+        "model": "rainbowchristmas:block/green_garland",
+        "y": 270
+      }, 
+      "when": {
+        "east": true
+      }
+    },
+    {
+      "apply": {
+        "model": "rainbowchristmas:block/green_garland"
+      }, 
+      "when": {
+        "south": true
+      }
+    },
+    {
+      "apply": {
+        "model": "rainbowchristmas:block/green_garland",
+        "y": 90
+      }, 
+      "when": {
+        "west": true
+      }
+    }
+  ]
+}

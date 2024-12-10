@@ -1,0 +1,6 @@
+{
+	"parent": "rainbowchristmas:block/template_garland",
+	"textures": {
+		"all": "rainbowchristmas:block/orange_garland"
+	}
+}

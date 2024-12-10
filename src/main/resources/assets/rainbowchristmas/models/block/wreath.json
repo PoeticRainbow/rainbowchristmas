@@ -1,0 +1,6 @@
+{
+	"parent": "rainbowchristmas:block/template_wall_decoration",
+	"textures": {
+		"all": "rainbowchristmas:block/wreath"
+	}
+}

@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": {
+      "item": "minecraft:glass_bottle"
+    },
+    "$": {
+      "item": "minecraft:string"
+    },
+    "X": {
+      "item": "minecraft:light_blue_dye"
+    }
+  },
+  "pattern": [
+    "$X$",
+    "###"
+  ],
+  "result": {
+    "count": 6,
+    "item": "rainbowchristmas:light_blue_christmas_lights"
+  },
+  "show_notification": true
+}

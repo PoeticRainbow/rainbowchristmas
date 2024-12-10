@@ -1,0 +1,6 @@
+{
+	"parent": "rainbowchristmas:block/template_ornament_floor",
+	"textures": {
+		"ornament": "rainbowchristmas:block/black_ornament"
+	}
+}

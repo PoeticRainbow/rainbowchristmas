@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": {
+      "tag": "minecraft:leaves"
+    },
+    "X": {
+      "item": "minecraft:sweet_berries"
+    }
+  },
+  "pattern": [
+    "#X#",
+    "# #",
+    "###"
+  ],
+  "result": {
+    "item": "rainbowchristmas:wreath"
+  },
+  "show_notification": true
+}

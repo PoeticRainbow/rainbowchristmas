@@ -1,0 +1,6 @@
+{
+	"parent": "rainbowchristmas:block/template_icicle",
+	"textures": {
+		"icicle": "rainbowchristmas:block/icicle_three"
+	}
+}

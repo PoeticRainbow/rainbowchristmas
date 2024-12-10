@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "rainbowchristmas:block/purple_christmas_lights",
+    "layer1": "rainbowchristmas:block/christmas_lights_string"
+  }
+}
