@@ -14,6 +14,8 @@ import net.minecraft.state.property.EnumProperty;
 import net.minecraft.state.property.Properties;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
+import net.minecraft.util.BlockMirror;
+import net.minecraft.util.BlockRotation;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.StringIdentifiable;
 import net.minecraft.util.math.BlockPos;
@@ -119,7 +121,10 @@ public class FauxSnowBlock extends TransparentBlock {
             world.scheduleBlockTick(pos, this, 1);
         }
 
-        return updateBlockStateFromBelow(world.getBlockState(pos.down()), (World) world, pos);
+        if (world instanceof World worldWorld) {
+            return updateBlockStateFromBelow(world.getBlockState(pos.down()), worldWorld, pos);
+        }
+        return state;
     }
 
     @Override
@@ -138,6 +143,16 @@ public class FauxSnowBlock extends TransparentBlock {
     public boolean canPlaceAt(BlockState state, WorldView world, BlockPos pos) {
         BlockState blockBelow = world.getBlockState(pos.down());
         return !blockBelow.isAir() && !blockBelow.isOf(this);
+    }
+
+    @Override
+    public BlockState mirror(BlockState state, BlockMirror mirror) {
+        return state.with(FACING, mirror.apply(state.get(FACING)));
+    }
+
+    @Override
+    public BlockState rotate(BlockState state, BlockRotation rotation) {
+        return state.with(FACING, rotation.rotate(state.get(FACING)));
     }
 
     static {

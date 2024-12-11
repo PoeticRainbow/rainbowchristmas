@@ -6,17 +6,21 @@ import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
+import net.fabricmc.fabric.api.datagen.v1.provider.SimpleFabricLootTableProvider;
 import net.fabricmc.fabric.api.tag.convention.v1.ConventionalItemTags;
-import net.fabricmc.fabric.impl.item.RecipeRemainderHandler;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.data.server.recipe.*;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.Items;
+import net.minecraft.loot.LootPool;
+import net.minecraft.loot.LootTable;
+import net.minecraft.loot.context.LootContextTypes;
+import net.minecraft.loot.entry.ItemEntry;
+import net.minecraft.loot.provider.number.ConstantLootNumberProvider;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.book.RecipeCategory;
-import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.registry.tag.BlockTags;
@@ -28,6 +32,7 @@ import poeticrainbow.rainbowchristmas.registry.ModBlocks;
 import poeticrainbow.rainbowchristmas.registry.ModItems;
 
 import java.util.concurrent.CompletableFuture;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 public class ModDataGenerator implements DataGeneratorEntrypoint {
@@ -40,6 +45,7 @@ public class ModDataGenerator implements DataGeneratorEntrypoint {
         pack.addProvider(ModItemTags::new);
         pack.addProvider(ModRecipes::new);
         pack.addProvider(ModBlockLootTables::new);
+        pack.addProvider(ModChestLootTables::new);
     }
 
     public static class ModBlockTags extends FabricTagProvider.BlockTagProvider {
@@ -498,7 +504,6 @@ public class ModDataGenerator implements DataGeneratorEntrypoint {
     }
 
     public static class ModBlockLootTables extends FabricBlockLootTableProvider {
-
         protected ModBlockLootTables(FabricDataOutput dataOutput) {
             super(dataOutput);
         }
@@ -539,6 +544,29 @@ public class ModDataGenerator implements DataGeneratorEntrypoint {
             ModBlocks.GARLANDS.forEach(this::addDrop);
             ModBlocks.CHRISTMAS_LIGHTS.forEach(this::addDrop);
             ModBlocks.HOLIDAY_LEAVES.forEach(this::addDrop);
+        }
+    }
+
+    public static class ModChestLootTables extends SimpleFabricLootTableProvider {
+        public ModChestLootTables(FabricDataOutput output) {
+            super(output, LootContextTypes.CHEST);
+        }
+
+        @Override
+        public void accept(BiConsumer<Identifier, LootTable.Builder> exporter) {
+            exporter.accept(Identifier.of(RainbowChristmas.MOD_ID, "gingerbread_house"),
+                    LootTable.builder().pool(LootPool.builder()
+                            .rolls(ConstantLootNumberProvider.create(24.0f))
+                            .with(ItemEntry.builder(ModItems.WARM_SPICES))
+                            .with(ItemEntry.builder(ModItems.CANDY_CANE))
+                            .with(ItemEntry.builder(ModItems.GINGERBREAD_COOKIE))));
+            exporter.accept(Identifier.of(RainbowChristmas.MOD_ID, "gingerbread_house_festive_hat_materials"),
+                    LootTable.builder().pool(LootPool.builder()
+                            .rolls(ConstantLootNumberProvider.create(15.0f))
+                            .with(ItemEntry.builder(Items.WHITE_WOOL).weight(4))
+                            .with(ItemEntry.builder(Items.RED_DYE))
+                            .with(ItemEntry.builder(Items.GREEN_DYE))
+                            .with(ItemEntry.builder(Items.WHITE_DYE))));
         }
     }
 }

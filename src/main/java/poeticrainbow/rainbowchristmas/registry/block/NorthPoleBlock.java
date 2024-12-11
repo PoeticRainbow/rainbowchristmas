@@ -64,8 +64,8 @@ public class NorthPoleBlock extends Block {
 
     @Override
     public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
-        if (neighborState.isOf(this) && direction.getAxis().isVertical()) {
-            return getStateFromNeighborBlocks((World) world, pos);
+        if (neighborState.isOf(this) && direction.getAxis().isVertical() && world instanceof World worldWorld) {
+            return getStateFromNeighborBlocks(worldWorld, pos);
         }
         return state;
     }
