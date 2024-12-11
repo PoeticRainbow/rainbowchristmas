@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:chest",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "rainbowchristmas:warm_spices"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "rainbowchristmas:candy_cane"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "rainbowchristmas:gingerbread_cookie"
+        }
+      ],
+      "rolls": 24.0
+    }
+  ]
+}
