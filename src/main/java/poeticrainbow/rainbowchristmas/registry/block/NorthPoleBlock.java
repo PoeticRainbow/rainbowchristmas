@@ -84,7 +84,7 @@ public class NorthPoleBlock extends Block {
         POLE_SHAPE = EnumProperty.of("shape", PoleShape.class);
     }
 
-    enum PoleShape implements StringIdentifiable {
+    public enum PoleShape implements StringIdentifiable {
         BOTTOM("bottom"),
         MIDDLE("middle"),
         TOP("top"),
