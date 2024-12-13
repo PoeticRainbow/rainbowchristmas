@@ -14,19 +14,27 @@ import poeticrainbow.rainbowchristmas.registry.block.*;
 import java.util.List;
 
 public class ModBlocks {
-    public static Block CHRISTMAS_TREE_STAND = register(new ChristmasTreeStandBlock(FabricBlockSettings.create().nonOpaque()
-            .solidBlock(Blocks::never).suffocates(Blocks::never).blockVision(Blocks::never)), "christmas_tree_stand", true);
-    public static Block MISTLETOE = register(new MistletoeBlock(AbstractBlock.Settings.create().sounds(BlockSoundGroup.GRASS)
-            .ticksRandomly().nonOpaque().solidBlock(Blocks::never).suffocates(Blocks::never).blockVision(Blocks::never)), "mistletoe", true);
-    public static Block FAUX_SNOW = register(new FauxSnowBlock(FabricBlockSettings.create().sounds(BlockSoundGroup.SNOW)
-            .nonOpaque().solidBlock(Blocks::never).suffocates(Blocks::never).blockVision(Blocks::never)), "faux_snow", true);
-    public static Block WREATH = register(new WallDecorationBlock(FabricBlockSettings.create().sounds(BlockSoundGroup.GRASS)
-            .nonOpaque().solidBlock(Blocks::never).suffocates(Blocks::never).blockVision(Blocks::never)), "wreath", true);
-    public static Block STAR_TOPPER = register(new TreeTopperBlock(FabricBlockSettings.create().sounds(BlockSoundGroup.GLASS)
-            .nonOpaque().solidBlock(Blocks::never).suffocates(Blocks::never).blockVision(Blocks::never).luminance(15)), "star_topper", true);
-    public static Block ICICLE = register(new IcicleBlock(FabricBlockSettings.create().sounds(BlockSoundGroup.GLASS)
-            .nonOpaque().solidBlock(Blocks::never).suffocates(Blocks::never).blockVision(Blocks::never)), "icicle", true);
-    public static Block SHREDDER = register(new ShredderBlock(FabricBlockSettings.create()), "shredder", true);
+    public static Block CHRISTMAS_TREE_STAND = register(new ChristmasTreeStandBlock(FabricBlockSettings.create().mapColor(MapColor.LIGHT_BLUE)
+            .nonOpaque().solidBlock(Blocks::never).suffocates(Blocks::never).blockVision(Blocks::never)),
+            "christmas_tree_stand", true);
+    public static Block MISTLETOE = register(new MistletoeBlock(AbstractBlock.Settings.create().sounds(BlockSoundGroup.GRASS).mapColor(MapColor.RED)
+            .ticksRandomly().nonOpaque().solidBlock(Blocks::never).suffocates(Blocks::never).blockVision(Blocks::never)),
+            "mistletoe", true);
+    public static Block FAUX_SNOW = register(new FauxSnowBlock(FabricBlockSettings.create().sounds(BlockSoundGroup.SNOW).mapColor(MapColor.WHITE_GRAY)
+            .nonOpaque().solidBlock(Blocks::never).suffocates(Blocks::never).blockVision(Blocks::never)),
+            "faux_snow", true);
+    public static Block WREATH = register(new WallDecorationBlock(FabricBlockSettings.create().sounds(BlockSoundGroup.GRASS).mapColor(MapColor.GREEN)
+            .nonOpaque().solidBlock(Blocks::never).suffocates(Blocks::never).blockVision(Blocks::never)),
+            "wreath", true);
+    public static Block STAR_TOPPER = register(new TreeTopperBlock(FabricBlockSettings.create().sounds(BlockSoundGroup.GLASS).mapColor(MapColor.GOLD)
+            .nonOpaque().solidBlock(Blocks::never).suffocates(Blocks::never).blockVision(Blocks::never).luminance(15)),
+            "star_topper", true);
+    public static Block ICICLE = register(new IcicleBlock(FabricBlockSettings.create().sounds(BlockSoundGroup.GLASS).mapColor(MapColor.LIGHT_BLUE)
+            .nonOpaque().solidBlock(Blocks::never).suffocates(Blocks::never).blockVision(Blocks::never)),
+            "icicle", true);
+    public static Block SHREDDER = register(new ShredderBlock(FabricBlockSettings.create().sounds(BlockSoundGroup.STONE).mapColor(MapColor.STONE_GRAY)
+            .requiresTool().strength(0.8f, 3.0f)),
+            "shredder", true);
 
     public static AbstractBlock.Settings HARD_CANDY_SETTINGS = FabricBlockSettings.create().strength(0.8f, 3.0f).mapColor(MapColor.PALE_YELLOW).sounds(BlockSoundGroup.STONE);
     public static Block HARD_CANDY_BLOCK = register(new Block(HARD_CANDY_SETTINGS), "hard_candy_block", true);
@@ -68,23 +76,23 @@ public class ModBlocks {
             "gingerbread_shingle_slab", true);
 
 
-    public static Block RAINBOW_HOLIDAY_LEAVES = registerHolidayLeaves("rainbow_holiday_leaves");
-    public static Block WHITE_HOLIDAY_LEAVES = registerHolidayLeaves("white_holiday_leaves");
-    public static Block LIGHT_GRAY_HOLIDAY_LEAVES = registerHolidayLeaves("light_gray_holiday_leaves");
-    public static Block GRAY_HOLIDAY_LEAVES = registerHolidayLeaves("gray_holiday_leaves");
-    public static Block BLACK_HOLIDAY_LEAVES = registerHolidayLeaves("black_holiday_leaves");
-    public static Block BROWN_HOLIDAY_LEAVES = registerHolidayLeaves("brown_holiday_leaves");
-    public static Block RED_HOLIDAY_LEAVES = registerHolidayLeaves("red_holiday_leaves");
-    public static Block ORANGE_HOLIDAY_LEAVES = registerHolidayLeaves("orange_holiday_leaves");
-    public static Block YELLOW_HOLIDAY_LEAVES = registerHolidayLeaves("yellow_holiday_leaves");
-    public static Block LIME_HOLIDAY_LEAVES = registerHolidayLeaves("lime_holiday_leaves");
-    public static Block GREEN_HOLIDAY_LEAVES = registerHolidayLeaves("green_holiday_leaves");
-    public static Block CYAN_HOLIDAY_LEAVES = registerHolidayLeaves("cyan_holiday_leaves");
-    public static Block LIGHT_BLUE_HOLIDAY_LEAVES = registerHolidayLeaves("light_blue_holiday_leaves");
-    public static Block BLUE_HOLIDAY_LEAVES = registerHolidayLeaves("blue_holiday_leaves");
-    public static Block PURPLE_HOLIDAY_LEAVES = registerHolidayLeaves("purple_holiday_leaves");
-    public static Block MAGENTA_HOLIDAY_LEAVES = registerHolidayLeaves("magenta_holiday_leaves");
-    public static Block PINK_HOLIDAY_LEAVES = registerHolidayLeaves("pink_holiday_leaves");
+    public static Block RAINBOW_HOLIDAY_LEAVES = registerHolidayLeaves("rainbow_holiday_leaves", MapColor.PURPLE);
+    public static Block WHITE_HOLIDAY_LEAVES = registerHolidayLeaves("white_holiday_leaves", MapColor.WHITE);
+    public static Block LIGHT_GRAY_HOLIDAY_LEAVES = registerHolidayLeaves("light_gray_holiday_leaves", MapColor.LIGHT_GRAY);
+    public static Block GRAY_HOLIDAY_LEAVES = registerHolidayLeaves("gray_holiday_leaves", MapColor.GRAY);
+    public static Block BLACK_HOLIDAY_LEAVES = registerHolidayLeaves("black_holiday_leaves", MapColor.BLACK);
+    public static Block BROWN_HOLIDAY_LEAVES = registerHolidayLeaves("brown_holiday_leaves", MapColor.BROWN);
+    public static Block RED_HOLIDAY_LEAVES = registerHolidayLeaves("red_holiday_leaves", MapColor.RED);
+    public static Block ORANGE_HOLIDAY_LEAVES = registerHolidayLeaves("orange_holiday_leaves", MapColor.ORANGE);
+    public static Block YELLOW_HOLIDAY_LEAVES = registerHolidayLeaves("yellow_holiday_leaves", MapColor.YELLOW);
+    public static Block LIME_HOLIDAY_LEAVES = registerHolidayLeaves("lime_holiday_leaves", MapColor.LIME);
+    public static Block GREEN_HOLIDAY_LEAVES = registerHolidayLeaves("green_holiday_leaves", MapColor.GREEN);
+    public static Block CYAN_HOLIDAY_LEAVES = registerHolidayLeaves("cyan_holiday_leaves", MapColor.CYAN);
+    public static Block LIGHT_BLUE_HOLIDAY_LEAVES = registerHolidayLeaves("light_blue_holiday_leaves", MapColor.LIGHT_BLUE);
+    public static Block BLUE_HOLIDAY_LEAVES = registerHolidayLeaves("blue_holiday_leaves", MapColor.BLUE);
+    public static Block PURPLE_HOLIDAY_LEAVES = registerHolidayLeaves("purple_holiday_leaves", MapColor.PURPLE);
+    public static Block MAGENTA_HOLIDAY_LEAVES = registerHolidayLeaves("magenta_holiday_leaves", MapColor.MAGENTA);
+    public static Block PINK_HOLIDAY_LEAVES = registerHolidayLeaves("pink_holiday_leaves", MapColor.PINK);
 
     public static List<Block> HOLIDAY_LEAVES = List.of(RAINBOW_HOLIDAY_LEAVES, WHITE_HOLIDAY_LEAVES, LIGHT_GRAY_HOLIDAY_LEAVES,
             GRAY_HOLIDAY_LEAVES, BLACK_HOLIDAY_LEAVES, BROWN_HOLIDAY_LEAVES, RED_HOLIDAY_LEAVES, ORANGE_HOLIDAY_LEAVES,
@@ -166,20 +174,20 @@ public class ModBlocks {
     }
 
     public static Block registerGarland(String name) {
-        return register(new GarlandBlock(FabricBlockSettings.create().sounds(BlockSoundGroup.GRASS).nonOpaque()
-                        .solidBlock(Blocks::never).suffocates(Blocks::never).blockVision(Blocks::never)),
+        return register(new GarlandBlock(FabricBlockSettings.create().sounds(BlockSoundGroup.GRASS).mapColor(MapColor.CLEAR)
+                        .nonOpaque().solidBlock(Blocks::never).suffocates(Blocks::never).blockVision(Blocks::never)),
                 name, true);
     }
 
     public static Block registerChristmasLights(String name) {
-        return register(new ChristmasLightsBlock(FabricBlockSettings.create().sounds(BlockSoundGroup.WOOD).nonOpaque()
-                        .solidBlock(Blocks::never).suffocates(Blocks::never).blockVision(Blocks::never).luminance(15)),
+        return register(new ChristmasLightsBlock(FabricBlockSettings.create().sounds(BlockSoundGroup.WOOD).mapColor(MapColor.CLEAR)
+                        .nonOpaque().solidBlock(Blocks::never).suffocates(Blocks::never).blockVision(Blocks::never).luminance(15)),
                 name, true);
     }
 
-    public static Block registerHolidayLeaves(String name) {
-        return register(new HolidayLeavesBlock(FabricBlockSettings.copyOf(Blocks.OAK_LEAVES).nonOpaque()
-                        .solidBlock(Blocks::never).suffocates(Blocks::never).blockVision(Blocks::never)),
+    public static Block registerHolidayLeaves(String name, MapColor color) {
+        return register(new HolidayLeavesBlock(FabricBlockSettings.copyOf(Blocks.OAK_LEAVES).mapColor(color)
+                        .nonOpaque().solidBlock(Blocks::never).suffocates(Blocks::never).blockVision(Blocks::never)),
                 name, true);
     }
 

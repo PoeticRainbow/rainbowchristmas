@@ -6,9 +6,9 @@
   "description": "Time to get festive!",
   "authors": ["PoeticRainbow"],
   "contact": {
-    "homepage": "modrinth link when available",
-    "sources": "github link when available",
-    "issues": "github issues link when available"
+    "homepage": "https://modrinth.com/project/rainbow-christmas",
+    "sources": "https://github.com/PoeticRainbow/rainbowchristmas",
+    "issues": "https://github.com/PoeticRainbow/rainbowchristmas/issues"
   },
   "license": "All-Rights-Reserved",
   "icon": "assets/rainbowchristmas/icon.png",

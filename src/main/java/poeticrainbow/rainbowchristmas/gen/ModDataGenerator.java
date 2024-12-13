@@ -516,6 +516,7 @@ public class ModDataGenerator implements DataGeneratorEntrypoint {
             addDrop(ModBlocks.FAUX_SNOW);
             addDrop(ModBlocks.STAR_TOPPER);
             addDrop(ModBlocks.ICICLE);
+            addDrop(ModBlocks.SHREDDER);
 
             addDrop(ModBlocks.HARD_CANDY_BLOCK);
             addDrop(ModBlocks.HARD_CANDY_TILES);

@@ -47,7 +47,7 @@ public class ShredderBlock extends Block {
                     itemEntity.getStack().decrement(1);
                     ItemStack shreddedItemStack = new ItemStack(ModBlocks.FAUX_SNOW, 8);
                     itemEntity.dropStack(shreddedItemStack, -1 - itemEntity.getHeight());
-                    itemEntity.playSound(SoundEvents.ENTITY_SHEEP_SHEAR, 0.6f, 0.8f + world.getRandom().nextFloat() * 0.3f);
+                    itemEntity.playSound(SoundEvents.BLOCK_GRINDSTONE_USE, 0.6f, 0.8f + world.getRandom().nextFloat() * 0.3f);
                 } else {
                     itemEntity.setVelocity(0d, 0.35d, 0d);
                     itemEntity.playSound(SoundEvents.BLOCK_ANVIL_DESTROY, 1f, 1f);
