@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "#": "#minecraft:wool",
+    "$": "minecraft:light_blue_dye"
+  },
+  "pattern": [
+    "###",
+    "#$#"
+  ],
+  "result": {
+    "count": 1,
+    "id": "rainbowchristmas:light_blue_festive_hat"
+  }
+}

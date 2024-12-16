@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": "minecraft:brick",
+    "$": "minecraft:dirt",
+    "%": "minecraft:light_blue_dye"
+  },
+  "pattern": [
+    "#$#",
+    "#%#",
+    "###"
+  ],
+  "result": {
+    "count": 1,
+    "id": "rainbowchristmas:christmas_tree_stand"
+  }
+}

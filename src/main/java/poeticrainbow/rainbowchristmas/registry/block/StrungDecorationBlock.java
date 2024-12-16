@@ -1,14 +1,12 @@
 package poeticrainbow.rainbowchristmas.registry.block;
 
-import net.fabricmc.fabric.api.tag.convention.v1.ConventionalItemTags;
+import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ShapeContext;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
@@ -20,11 +18,13 @@ import net.minecraft.util.function.BooleanBiFunction;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.random.Random;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldAccess;
+import net.minecraft.world.WorldView;
+import net.minecraft.world.tick.ScheduledTickView;
 import org.jetbrains.annotations.Nullable;
 import poeticrainbow.rainbowchristmas.util.BlockInteractionUtil;
 
@@ -59,7 +59,7 @@ public class StrungDecorationBlock extends Block {
     }
 
     @Override
-    public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
+    protected BlockState getStateForNeighborUpdate(BlockState state, WorldView world, ScheduledTickView tickView, BlockPos pos, Direction direction, BlockPos neighborPos, BlockState neighborState, Random random) {
         // If the update came from a different height then ignore
         if (pos.getY() != neighborPos.getY() || neighborState.getBlock() instanceof StrungDecorationBlock) return state;
         if (world instanceof World worldWorld) {
@@ -112,10 +112,10 @@ public class StrungDecorationBlock extends Block {
     }
 
     @Override
-    public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+    protected ActionResult onUseWithItem(ItemStack stack, BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
         if (!world.isClient()) {
             ItemStack itemInHand = player.getStackInHand(hand);
-            if (itemInHand.isIn(ConventionalItemTags.SHEARS)) {
+            if (itemInHand.isIn(ConventionalItemTags.SHEAR_TOOLS)) {
                 BlockState newState = state;
                 Direction side = BlockInteractionUtil.getDirectionOfClosestSideFromHitPosition(hit.getPos(), pos);
                 switch (side) {
@@ -127,12 +127,13 @@ public class StrungDecorationBlock extends Block {
                         return ActionResult.FAIL;
                     }
                 }
-                if (!player.isCreative()) itemInHand.damage(1, player.getRandom(), (ServerPlayerEntity) player);
+                if (!player.isCreative()) itemInHand.damage(1, player);
                 world.setBlockState(pos, newState);
-                player.playSound(SoundEvents.ENTITY_SHEEP_SHEAR, SoundCategory.PLAYERS, 1.0f, 1.0f);
+                player.playSound(SoundEvents.ENTITY_SHEEP_SHEAR, 1.0f, 1.0f);
                 return ActionResult.SUCCESS;
             }
         }
+
         return ActionResult.PASS;
     }
 

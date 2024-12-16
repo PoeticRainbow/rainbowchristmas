@@ -28,7 +28,7 @@ public class RainbowChristmas implements ModInitializer, ClientModInitializer {
     @Override
     public void onInitializeClient() {
         LOGGER.info("Giving your client a little holiday spirit!");
-        ColorProviderRegistry.ITEM.register(MulticolorProvider::rainbowItemColorProvider, ModBlocks.RAINBOW_HOLIDAY_LEAVES.asItem());
+        //ColorProviderRegistry.ITEM.register(MulticolorProvider::rainbowItemColorProvider, ModBlocks.RAINBOW_HOLIDAY_LEAVES.asItem());
         ColorProviderRegistry.BLOCK.register(MulticolorProvider::holidayLeavesBlockColorProvider, ModBlocks.RAINBOW_HOLIDAY_LEAVES);
 
         BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.CHRISTMAS_TREE_STAND, RenderLayer.getCutout());

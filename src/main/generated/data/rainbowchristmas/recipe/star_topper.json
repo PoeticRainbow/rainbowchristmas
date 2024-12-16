@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": "minecraft:glowstone_dust",
+    "$": "minecraft:stick",
+    "X": "minecraft:glowstone"
+  },
+  "pattern": [
+    "#X#",
+    "XXX",
+    "#$#"
+  ],
+  "result": {
+    "count": 1,
+    "id": "rainbowchristmas:star_topper"
+  }
+}

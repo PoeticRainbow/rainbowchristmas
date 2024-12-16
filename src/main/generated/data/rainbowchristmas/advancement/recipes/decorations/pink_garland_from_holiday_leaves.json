@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_pink_holiday_leaves": {
+      "conditions": {
+        "items": [
+          {
+            "items": "rainbowchristmas:pink_holiday_leaves"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "minecraft:pink_garland_from_holiday_leaves"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_pink_holiday_leaves"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "minecraft:pink_garland_from_holiday_leaves"
+    ]
+  }
+}

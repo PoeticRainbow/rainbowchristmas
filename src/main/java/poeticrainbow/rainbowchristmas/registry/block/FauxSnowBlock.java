@@ -4,12 +4,12 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ShapeContext;
 import net.minecraft.block.TransparentBlock;
-import net.minecraft.client.item.TooltipContext;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateManager;
-import net.minecraft.state.property.DirectionProperty;
 import net.minecraft.state.property.EnumProperty;
 import net.minecraft.state.property.Properties;
 import net.minecraft.text.Style;
@@ -25,15 +25,15 @@ import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldAccess;
 import net.minecraft.world.WorldView;
+import net.minecraft.world.tick.ScheduledTickView;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
 public class FauxSnowBlock extends TransparentBlock {
     public static final EnumProperty<FauxSnowShape> FAUX_SNOW_SHAPE;
-    public static final DirectionProperty FACING;
+    public static final EnumProperty<Direction> FACING;
 
     public FauxSnowBlock(Settings settings) {
         super(settings);
@@ -48,13 +48,13 @@ public class FauxSnowBlock extends TransparentBlock {
     }
 
     @Override
-    public void appendTooltip(ItemStack stack, @Nullable BlockView world, List<Text> tooltip, TooltipContext options) {
+    public void appendTooltip(ItemStack stack, Item.TooltipContext context, List<Text> tooltip, TooltipType options) {
         Text fauxSnowTooltip = Text.translatable("tooltip.rainbowchristmas.faux_snow");
         String[] lines = fauxSnowTooltip.getString().split("\\n");
         for (String line : lines) {
             tooltip.add(Text.of(line).copy().setStyle(Style.EMPTY.withColor(Formatting.GRAY)));
         }
-        super.appendTooltip(stack, world, tooltip, options);
+        super.appendTooltip(stack, context, tooltip, options);
     }
 
     @Override
@@ -116,11 +116,10 @@ public class FauxSnowBlock extends TransparentBlock {
     }
 
     @Override
-    public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
+    protected BlockState getStateForNeighborUpdate(BlockState state, WorldView world, ScheduledTickView tickView, BlockPos pos, Direction direction, BlockPos neighborPos, BlockState neighborState, Random random) {
         if (!this.canPlaceAt(state, world, pos)) {
-            world.scheduleBlockTick(pos, this, 1);
+            tickView.scheduleBlockTick(pos, this, 1);
         }
-
         if (world instanceof World worldWorld) {
             return updateBlockStateFromBelow(world.getBlockState(pos.down()), worldWorld, pos);
         }

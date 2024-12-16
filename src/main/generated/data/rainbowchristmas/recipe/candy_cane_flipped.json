@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": "rainbowchristmas:hard_candy",
+    "$": "minecraft:red_dye",
+    "X": "minecraft:white_dye"
+  },
+  "pattern": [
+    "#X",
+    "$#"
+  ],
+  "result": {
+    "count": 8,
+    "id": "rainbowchristmas:candy_cane"
+  }
+}

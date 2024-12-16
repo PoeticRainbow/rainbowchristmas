@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:smoking",
+  "category": "food",
+  "cookingtime": 100,
+  "experience": 0.0,
+  "ingredient": "rainbowchristmas:chocolate_milk_bucket",
+  "result": {
+    "id": "rainbowchristmas:hot_chocolate_bucket"
+  }
+}

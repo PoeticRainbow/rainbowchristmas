@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": "rainbowchristmas:green_holiday_leaves",
+    "$": "minecraft:string"
+  },
+  "pattern": [
+    "$ $",
+    "###"
+  ],
+  "result": {
+    "count": 6,
+    "id": "rainbowchristmas:green_garland"
+  }
+}

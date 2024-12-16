@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "minecraft:yellow_garland_from_holiday_leaves"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_yellow_holiday_leaves": {
+      "conditions": {
+        "items": [
+          {
+            "items": "rainbowchristmas:yellow_holiday_leaves"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_yellow_holiday_leaves"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "minecraft:yellow_garland_from_holiday_leaves"
+    ]
+  }
+}

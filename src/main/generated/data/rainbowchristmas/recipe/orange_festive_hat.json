@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "#": "#minecraft:wool",
+    "$": "minecraft:orange_dye"
+  },
+  "pattern": [
+    "###",
+    "#$#"
+  ],
+  "result": {
+    "count": 1,
+    "id": "rainbowchristmas:orange_festive_hat"
+  }
+}

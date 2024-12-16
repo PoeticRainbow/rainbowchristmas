@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "#": "#minecraft:wool",
+    "$": "minecraft:pink_dye"
+  },
+  "pattern": [
+    "###",
+    "#$#"
+  ],
+  "result": {
+    "count": 1,
+    "id": "rainbowchristmas:pink_festive_hat"
+  }
+}

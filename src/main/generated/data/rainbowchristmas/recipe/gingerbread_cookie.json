@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": "rainbowchristmas:warm_spices",
+    "$": "minecraft:wheat",
+    "%": "minecraft:sugar"
+  },
+  "pattern": [
+    " # ",
+    "$%$"
+  ],
+  "result": {
+    "count": 8,
+    "id": "rainbowchristmas:gingerbread_cookie"
+  }
+}

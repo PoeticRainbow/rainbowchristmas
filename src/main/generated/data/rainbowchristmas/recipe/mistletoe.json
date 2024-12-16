@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": "#minecraft:leaves",
+    "$": "minecraft:string",
+    "%": "minecraft:sweet_berries",
+    "X": "#c:gems/diamond"
+  },
+  "pattern": [
+    "$#$",
+    "#X#",
+    "%#%"
+  ],
+  "result": {
+    "count": 1,
+    "id": "rainbowchristmas:mistletoe"
+  }
+}
