@@ -14,6 +14,7 @@ import net.minecraft.block.Blocks;
 import net.minecraft.client.data.BlockStateModelGenerator;
 import net.minecraft.client.data.ItemModelGenerator;
 import net.minecraft.client.data.Model;
+import net.minecraft.client.data.ModelIds;
 import net.minecraft.data.recipe.*;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemConvertible;
@@ -33,6 +34,7 @@ import net.minecraft.util.Identifier;
 import poeticrainbow.rainbowchristmas.RainbowChristmas;
 import poeticrainbow.rainbowchristmas.registry.ModBlocks;
 import poeticrainbow.rainbowchristmas.registry.ModItems;
+import poeticrainbow.rainbowchristmas.render.RainbowTintSource;
 
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
@@ -59,7 +61,10 @@ public class ModDataGenerator implements DataGeneratorEntrypoint {
 
         @Override
         public void generateBlockStateModels(BlockStateModelGenerator generator) {
-
+            generator.registerTintedItemModel(
+                    ModBlocks.RAINBOW_HOLIDAY_LEAVES,
+                    ModelIds.getBlockModelId(ModBlocks.RAINBOW_HOLIDAY_LEAVES),
+                    new RainbowTintSource());
         }
 
         @Override
@@ -75,6 +80,7 @@ public class ModDataGenerator implements DataGeneratorEntrypoint {
                     new Model(Optional.of(RainbowChristmas.id("block/north_pole_middle")), Optional.empty()));
 
             ModItems.FESTIVE_HATS.forEach(generator::register);
+
             generator.register(ModItems.HARD_CANDY);
             generator.register(ModItems.CANDY_CANE);
             generator.register(ModItems.GINGERBREAD_COOKIE);

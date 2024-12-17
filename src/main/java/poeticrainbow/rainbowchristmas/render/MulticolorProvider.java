@@ -2,7 +2,6 @@ package poeticrainbow.rainbowchristmas.render;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.noise.PerlinNoiseSampler;
 import net.minecraft.util.math.random.Random;
@@ -29,7 +28,7 @@ public class MulticolorProvider {
         return 0xFF0000;
     }
 
-    public static int rainbowItemColorProvider(ItemStack stack, int tintIndex) {
+    public static int rainbowItemColorProvider() {
         MinecraftClient client = MinecraftClient.getInstance();
         if (client == null || client.world == null) {
             return 0xEE0000;

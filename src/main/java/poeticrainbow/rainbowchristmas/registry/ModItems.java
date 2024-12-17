@@ -4,7 +4,9 @@ import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.ConsumableComponent;
+import net.minecraft.component.type.EquippableComponent;
 import net.minecraft.component.type.FoodComponent;
+import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.item.*;
 import net.minecraft.item.consume.ApplyEffectsConsumeEffect;
@@ -82,10 +84,12 @@ public class ModItems {
     public static final Item WARM_SPICES = register(new TooltipItem(new Item.Settings().registryKey(keyOfItem("warm_spices"))), "warm_spices");
 
     public static Item registerFestiveHat(String color) {
-        ArmorMaterial festiveArmorMaterial = new ArmorMaterial(200, Util.make(new EnumMap<>(EquipmentType.class), map -> map.put(EquipmentType.HELMET, 2)), 2, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, 0, 0, ItemTags.WOOL, ModMisc.FESTIVE);
+        ArmorMaterial festiveArmorMaterial = new ArmorMaterial(200, Util.make(new EnumMap<>(EquipmentType.class), map -> map.put(EquipmentType.HELMET, 2)), 2, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, 0, 0, ItemTags.WOOL,
+                ModMisc.registerEquipment(color + "_festive_hat"));
         return register(new ArmorItem(festiveArmorMaterial, EquipmentType.HELMET,
-                        new Item.Settings()
-                                .registryKey(keyOfItem(color + "_festive_hat"))),
+                        new Item.Settings().registryKey(keyOfItem(color + "_festive_hat"))
+                                .component(DataComponentTypes.EQUIPPABLE,
+                                        EquippableComponent.builder(EquipmentSlot.HEAD).model(ModMisc.FESTIVE).build())),
                         color + "_festive_hat");
     }
 

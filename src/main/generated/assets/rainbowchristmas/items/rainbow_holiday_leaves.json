@@ -1,6 +1,12 @@
 {
   "model": {
     "type": "minecraft:model",
-    "model": "rainbowchristmas:block/rainbow_holiday_leaves"
+    "model": "rainbowchristmas:block/rainbow_holiday_leaves",
+    "tints": [
+      {
+        "type": "rainbowchristmas:rainbow",
+        "default": 16777215
+      }
+    ]
   }
 }

@@ -9,7 +9,8 @@
     "StemBlockMixin"
   ],
   "client": [
-    "ChestBlockEntityRenderer"
+    "ChestBlockEntityRenderer",
+    "TintSourceTypesMixin"
   ],
   "injectors": {
     "defaultRequire": 1
