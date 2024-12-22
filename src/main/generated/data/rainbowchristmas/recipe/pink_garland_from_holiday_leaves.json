@@ -1,6 +1,7 @@
 {
   "type": "minecraft:crafting_shaped",
   "category": "misc",
+  "group": "garland_from_holiday_leaves",
   "key": {
     "#": "rainbowchristmas:pink_holiday_leaves",
     "$": "minecraft:string"

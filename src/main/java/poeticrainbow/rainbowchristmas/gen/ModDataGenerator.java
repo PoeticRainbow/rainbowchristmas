@@ -222,6 +222,17 @@ public class ModDataGenerator implements DataGeneratorEntrypoint {
                             .criterion(hasItem(Items.SWEET_BERRIES), conditionsFromItem(Items.SWEET_BERRIES))
                             .offerTo(exporter);
 
+                    createShaped(RecipeCategory.MISC, ModBlocks.SHREDDER)
+                            .pattern("#$#")
+                            .pattern("#%#")
+                            .pattern("#$#")
+                            .input('#', ItemTags.STONE_TOOL_MATERIALS)
+                            .input('$', Items.REDSTONE)
+                            .input('%', Items.SHEARS)
+                            .criterion("has_cobble", conditionsFromTag(ItemTags.STONE_TOOL_MATERIALS))
+                            .criterion(hasItem(Items.REDSTONE), conditionsFromItem(Items.REDSTONE))
+                            .offerTo(consumer);
+
                     createShaped(RecipeCategory.DECORATIONS, ModBlocks.CHRISTMAS_TREE_STAND)
                             .pattern("#$#")
                             .pattern("#%#")
@@ -489,6 +500,7 @@ public class ModDataGenerator implements DataGeneratorEntrypoint {
                             .pattern("#$#")
                             .input('#', ItemTags.WOOL)
                             .input('$', dye)
+                            .group("festive_hat")
                             .criterion("has_wool", conditionsFromTag(ItemTags.WOOL))
                             .criterion(hasItem(dye), conditionsFromItem(dye));
                 }
@@ -500,6 +512,7 @@ public class ModDataGenerator implements DataGeneratorEntrypoint {
                             .pattern(" # ")
                             .input('#', ModItemTags.ORNAMENT)
                             .input('X', dye)
+                            .group("ornament")
                             .criterion(hasItem(ModBlocks.CLEAR_ORNAMENT), conditionsFromItem(ModBlocks.CLEAR_ORNAMENT));
                 }
 
@@ -510,6 +523,7 @@ public class ModDataGenerator implements DataGeneratorEntrypoint {
                             .input('#', ItemTags.LEAVES)
                             .input('$', Items.STRING)
                             .input('X', dye)
+                            .group("garland")
                             .criterion("has_leaves", conditionsFromTag(ItemTags.LEAVES));
                 }
 
@@ -519,6 +533,7 @@ public class ModDataGenerator implements DataGeneratorEntrypoint {
                             .pattern("###")
                             .input('#', holidayLeaves)
                             .input('$', Items.STRING)
+                            .group("garland_from_holiday_leaves")
                             .criterion(hasItem(holidayLeaves), conditionsFromItem(holidayLeaves));
                 }
 
@@ -529,6 +544,7 @@ public class ModDataGenerator implements DataGeneratorEntrypoint {
                             .pattern("###")
                             .input('#', ItemTags.LEAVES)
                             .input('X', dye)
+                            .group("holiday_leaves")
                             .criterion("has_leaves", conditionsFromTag(ItemTags.LEAVES));
                 }
 
@@ -539,6 +555,7 @@ public class ModDataGenerator implements DataGeneratorEntrypoint {
                             .input('#', Items.GLASS_BOTTLE)
                             .input('X', dye)
                             .input('$', Items.STRING)
+                            .group("christmas_lights")
                             .criterion(hasItem(dye), conditionsFromItem(dye))
                             .criterion(hasItem(Items.STRING), conditionsFromItem(Items.STRING))
                             .criterion(hasItem(Items.GLASS_BOTTLE), conditionsFromItem(Items.GLASS_BOTTLE));

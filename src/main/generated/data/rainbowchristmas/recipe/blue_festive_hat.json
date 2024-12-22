@@ -1,6 +1,7 @@
 {
   "type": "minecraft:crafting_shaped",
   "category": "equipment",
+  "group": "festive_hat",
   "key": {
     "#": "#minecraft:wool",
     "$": "minecraft:blue_dye"
