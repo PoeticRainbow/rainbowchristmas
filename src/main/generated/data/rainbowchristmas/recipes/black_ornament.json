@@ -1,9 +1,10 @@
 {
   "type": "minecraft:crafting_shaped",
   "category": "misc",
+  "group": "ornament",
   "key": {
     "#": {
-      "item": "rainbowchristmas:clear_ornament"
+      "tag": "rainbowchristmas:ornament"
     },
     "X": {
       "item": "minecraft:black_dye"

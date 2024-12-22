@@ -7,6 +7,7 @@ import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
 import net.fabricmc.fabric.api.datagen.v1.provider.SimpleFabricLootTableProvider;
+import net.fabricmc.fabric.api.tag.convention.v1.ConventionalBlockTags;
 import net.fabricmc.fabric.api.tag.convention.v1.ConventionalItemTags;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
@@ -185,6 +186,17 @@ public class ModDataGenerator implements DataGeneratorEntrypoint {
                     .criterion("has_diamonds", FabricRecipeProvider.conditionsFromTag(ConventionalItemTags.DIAMONDS))
                     .criterion(FabricRecipeProvider.hasItem(Items.STRING), FabricRecipeProvider.conditionsFromItem(Items.STRING))
                     .criterion(FabricRecipeProvider.hasItem(Items.SWEET_BERRIES), FabricRecipeProvider.conditionsFromItem(Items.SWEET_BERRIES))
+                    .offerTo(consumer);
+
+            ShapedRecipeJsonBuilder.create(RecipeCategory.MISC, ModBlocks.SHREDDER)
+                    .pattern("#$#")
+                    .pattern("#%#")
+                    .pattern("#$#")
+                    .input('#', ItemTags.STONE_TOOL_MATERIALS)
+                    .input('$', Items.REDSTONE)
+                    .input('%', Items.SHEARS)
+                    .criterion("has_cobble", FabricRecipeProvider.conditionsFromTag(ItemTags.STONE_TOOL_MATERIALS))
+                    .criterion(FabricRecipeProvider.hasItem(Items.REDSTONE), FabricRecipeProvider.conditionsFromItem(Items.REDSTONE))
                     .offerTo(consumer);
 
             ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, ModBlocks.CHRISTMAS_TREE_STAND)
@@ -447,6 +459,7 @@ public class ModDataGenerator implements DataGeneratorEntrypoint {
                     .pattern("#$#")
                     .input('#', ItemTags.WOOL)
                     .input('$', dye)
+                    .group("festive_hat")
                     .criterion("has_wool", FabricRecipeProvider.conditionsFromTag(ItemTags.WOOL))
                     .criterion(FabricRecipeProvider.hasItem(dye), FabricRecipeProvider.conditionsFromItem(dye));
         }
@@ -458,6 +471,7 @@ public class ModDataGenerator implements DataGeneratorEntrypoint {
                     .pattern(" # ")
                     .input('#', ModItemTags.ORNAMENT)
                     .input('X', dye)
+                    .group("ornament")
                     .criterion(FabricRecipeProvider.hasItem(ModBlocks.CLEAR_ORNAMENT), FabricRecipeProvider.conditionsFromItem(ModBlocks.CLEAR_ORNAMENT));
         }
 
@@ -468,6 +482,7 @@ public class ModDataGenerator implements DataGeneratorEntrypoint {
                     .input('#', ItemTags.LEAVES)
                     .input('$', Items.STRING)
                     .input('X', dye)
+                    .group("garland")
                     .criterion("has_leaves", FabricRecipeProvider.conditionsFromTag(ItemTags.LEAVES));
         }
 
@@ -477,6 +492,7 @@ public class ModDataGenerator implements DataGeneratorEntrypoint {
                     .pattern("###")
                     .input('#', holidayLeaves)
                     .input('$', Items.STRING)
+                    .group("garland_from_holiday_leaves")
                     .criterion(FabricRecipeProvider.hasItem(holidayLeaves), FabricRecipeProvider.conditionsFromItem(holidayLeaves));
         }
 
@@ -487,6 +503,7 @@ public class ModDataGenerator implements DataGeneratorEntrypoint {
                     .pattern("###")
                     .input('#', ItemTags.LEAVES)
                     .input('X', dye)
+                    .group("holiday_leaves")
                     .criterion("has_leaves", FabricRecipeProvider.conditionsFromTag(ItemTags.LEAVES));
         }
 
@@ -497,6 +514,7 @@ public class ModDataGenerator implements DataGeneratorEntrypoint {
                     .input('#', Items.GLASS_BOTTLE)
                     .input('X', dye)
                     .input('$', Items.STRING)
+                    .group("christmas_lights")
                     .criterion(FabricRecipeProvider.hasItem(dye), FabricRecipeProvider.conditionsFromItem(dye))
                     .criterion(FabricRecipeProvider.hasItem(Items.STRING), FabricRecipeProvider.conditionsFromItem(Items.STRING))
                     .criterion(FabricRecipeProvider.hasItem(Items.GLASS_BOTTLE), FabricRecipeProvider.conditionsFromItem(Items.GLASS_BOTTLE));
