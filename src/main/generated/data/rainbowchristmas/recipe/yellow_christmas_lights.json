@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "christmas_lights",
+  "key": {
+    "#": {
+      "item": "minecraft:glass_bottle"
+    },
+    "$": {
+      "item": "minecraft:string"
+    },
+    "X": {
+      "item": "minecraft:yellow_dye"
+    }
+  },
+  "pattern": [
+    "$X$",
+    "###"
+  ],
+  "result": {
+    "count": 6,
+    "id": "rainbowchristmas:yellow_christmas_lights"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:smelting",
+  "category": "food",
+  "cookingtime": 200,
+  "experience": 0.0,
+  "ingredient": {
+    "item": "rainbowchristmas:chocolate_milk_bucket"
+  },
+  "result": {
+    "id": "rainbowchristmas:hot_chocolate_bucket"
+  }
+}

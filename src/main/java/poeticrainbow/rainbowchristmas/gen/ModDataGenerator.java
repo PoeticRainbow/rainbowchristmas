@@ -7,7 +7,7 @@ import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
 import net.fabricmc.fabric.api.datagen.v1.provider.SimpleFabricLootTableProvider;
-import net.fabricmc.fabric.api.tag.convention.v1.ConventionalItemTags;
+import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.data.server.recipe.*;
@@ -21,6 +21,7 @@ import net.minecraft.loot.entry.ItemEntry;
 import net.minecraft.loot.provider.number.ConstantLootNumberProvider;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.book.RecipeCategory;
+import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.registry.tag.BlockTags;
@@ -33,7 +34,6 @@ import poeticrainbow.rainbowchristmas.registry.ModItems;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 
 public class ModDataGenerator implements DataGeneratorEntrypoint {
 
@@ -128,224 +128,212 @@ public class ModDataGenerator implements DataGeneratorEntrypoint {
 
     public static class ModRecipes extends FabricRecipeProvider {
 
-        public ModRecipes(FabricDataOutput output) {
-            super(output);
+        public ModRecipes(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> registryLookup) {
+            super(output, registryLookup);
         }
 
-        public void offer2x2ConversionRecipe(Consumer<RecipeJsonProvider> consumer, ItemConvertible output, ItemConvertible input) {
+        public void offer2x2ConversionRecipe(RecipeExporter consumer, ItemConvertible output, ItemConvertible input) {
             ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, output, 4)
-                    .pattern("##")
-                    .pattern("##")
-                    .input('#', input)
-                    .criterion(FabricRecipeProvider.hasItem(input), FabricRecipeProvider.conditionsFromItem(input))
-                    .offerTo(consumer);
+                                   .pattern("##")
+                                   .pattern("##")
+                                   .input('#', input)
+                                   .criterion(FabricRecipeProvider.hasItem(input), FabricRecipeProvider.conditionsFromItem(input))
+                                   .offerTo(consumer);
         }
 
         @Override
-        public void generate(Consumer<RecipeJsonProvider> consumer) {
+        public void generate(RecipeExporter consumer) {
             ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, ModBlocks.CLEAR_ORNAMENT)
-                    .pattern("a")
-                    .pattern("b")
-                    .input('a', Items.STRING)
-                    .input('b', Items.GLASS_BOTTLE)
-                    .criterion(FabricRecipeProvider.hasItem(Items.STRING), FabricRecipeProvider.conditionsFromItem(Items.STRING))
-                    .criterion(FabricRecipeProvider.hasItem(Items.GLASS_BOTTLE), FabricRecipeProvider.conditionsFromItem(Items.GLASS_BOTTLE))
-                    .offerTo(consumer);
+                                   .pattern("a")
+                                   .pattern("b")
+                                   .input('a', Items.STRING)
+                                   .input('b', Items.GLASS_BOTTLE)
+                                   .criterion(FabricRecipeProvider.hasItem(Items.STRING), FabricRecipeProvider.conditionsFromItem(Items.STRING))
+                                   .criterion(FabricRecipeProvider.hasItem(Items.GLASS_BOTTLE), FabricRecipeProvider.conditionsFromItem(Items.GLASS_BOTTLE))
+                                   .offerTo(consumer);
 
             ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, ModBlocks.WREATH)
-                    .pattern("#X#")
-                    .pattern("# #")
-                    .pattern("###")
-                    .input('#', ItemTags.LEAVES)
-                    .input('X', Items.SWEET_BERRIES)
-                    .criterion("has_leaves", FabricRecipeProvider.conditionsFromTag(ItemTags.LEAVES))
-                    .offerTo(consumer);
+                                   .pattern("#X#")
+                                   .pattern("# #")
+                                   .pattern("###")
+                                   .input('#', ItemTags.LEAVES)
+                                   .input('X', Items.SWEET_BERRIES)
+                                   .criterion("has_leaves", FabricRecipeProvider.conditionsFromTag(ItemTags.LEAVES))
+                                   .offerTo(consumer);
 
             ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, ModBlocks.STAR_TOPPER)
-                    .pattern("#X#")
-                    .pattern("XXX")
-                    .pattern("#$#")
-                    .input('#', Items.GLOWSTONE_DUST)
-                    .input('X', Items.GLOWSTONE)
-                    .input('$', Items.STICK)
-                    .criterion(FabricRecipeProvider.hasItem(Items.GLOWSTONE_DUST), FabricRecipeProvider.conditionsFromItem(Items.GLOWSTONE_DUST))
-                    .criterion(FabricRecipeProvider.hasItem(Items.GLOWSTONE), FabricRecipeProvider.conditionsFromItem(Items.GLOWSTONE))
-                    .criterion(FabricRecipeProvider.hasItem(Items.STICK), FabricRecipeProvider.conditionsFromItem(Items.STICK))
-                    .offerTo(consumer);
+                                   .pattern("#X#")
+                                   .pattern("XXX")
+                                   .pattern("#$#")
+                                   .input('#', Items.GLOWSTONE_DUST)
+                                   .input('X', Items.GLOWSTONE)
+                                   .input('$', Items.STICK)
+                                   .criterion(FabricRecipeProvider.hasItem(Items.GLOWSTONE_DUST), FabricRecipeProvider.conditionsFromItem(Items.GLOWSTONE_DUST))
+                                   .criterion(FabricRecipeProvider.hasItem(Items.GLOWSTONE), FabricRecipeProvider.conditionsFromItem(Items.GLOWSTONE))
+                                   .criterion(FabricRecipeProvider.hasItem(Items.STICK), FabricRecipeProvider.conditionsFromItem(Items.STICK))
+                                   .offerTo(consumer);
 
             ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, ModBlocks.MISTLETOE)
-                    .pattern("$#$")
-                    .pattern("#X#")
-                    .pattern("%#%")
-                    .input('#', ItemTags.LEAVES)
-                    .input('X', ConventionalItemTags.DIAMONDS)
-                    .input('$', Items.STRING)
-                    .input('%', Items.SWEET_BERRIES)
-                    .criterion("has_leaves", FabricRecipeProvider.conditionsFromTag(ItemTags.LEAVES))
-                    .criterion("has_diamonds", FabricRecipeProvider.conditionsFromTag(ConventionalItemTags.DIAMONDS))
-                    .criterion(FabricRecipeProvider.hasItem(Items.STRING), FabricRecipeProvider.conditionsFromItem(Items.STRING))
-                    .criterion(FabricRecipeProvider.hasItem(Items.SWEET_BERRIES), FabricRecipeProvider.conditionsFromItem(Items.SWEET_BERRIES))
-                    .offerTo(consumer);
+                                   .pattern("$#$")
+                                   .pattern("#X#")
+                                   .pattern("%#%")
+                                   .input('#', ItemTags.LEAVES)
+                                   .input('X', ConventionalItemTags.DIAMOND_GEMS)
+                                   .input('$', Items.STRING)
+                                   .input('%', Items.SWEET_BERRIES)
+                                   .criterion("has_leaves", FabricRecipeProvider.conditionsFromTag(ItemTags.LEAVES))
+                                   .criterion("has_diamonds", FabricRecipeProvider.conditionsFromTag(ConventionalItemTags.DIAMOND_GEMS))
+                                   .criterion(FabricRecipeProvider.hasItem(Items.STRING), FabricRecipeProvider.conditionsFromItem(Items.STRING))
+                                   .criterion(FabricRecipeProvider.hasItem(Items.SWEET_BERRIES), FabricRecipeProvider.conditionsFromItem(Items.SWEET_BERRIES))
+                                   .offerTo(consumer);
 
             ShapedRecipeJsonBuilder.create(RecipeCategory.MISC, ModBlocks.SHREDDER)
-                    .pattern("#$#")
-                    .pattern("#%#")
-                    .pattern("#$#")
-                    .input('#', ItemTags.STONE_TOOL_MATERIALS)
-                    .input('$', Items.REDSTONE)
-                    .input('%', Items.SHEARS)
-                    .criterion("has_cobble", FabricRecipeProvider.conditionsFromTag(ItemTags.STONE_TOOL_MATERIALS))
-                    .criterion(FabricRecipeProvider.hasItem(Items.REDSTONE), FabricRecipeProvider.conditionsFromItem(Items.REDSTONE))
-                    .offerTo(consumer);
+                                   .pattern("#$#")
+                                   .pattern("#%#")
+                                   .pattern("#$#")
+                                   .input('#', ItemTags.STONE_TOOL_MATERIALS)
+                                   .input('$', Items.REDSTONE)
+                                   .input('%', Items.SHEARS)
+                                   .criterion("has_cobble", FabricRecipeProvider.conditionsFromTag(ItemTags.STONE_TOOL_MATERIALS))
+                                   .criterion(FabricRecipeProvider.hasItem(Items.REDSTONE), FabricRecipeProvider.conditionsFromItem(Items.REDSTONE))
+                                   .offerTo(consumer);
 
             ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, ModBlocks.CHRISTMAS_TREE_STAND)
-                    .pattern("#$#")
-                    .pattern("#%#")
-                    .pattern("###")
-                    .input('#', Items.BRICK)
-                    .input('$', Blocks.DIRT)
-                    .input('%', Items.LIGHT_BLUE_DYE)
-                    .criterion(FabricRecipeProvider.hasItem(Items.BRICK), FabricRecipeProvider.conditionsFromItem(Items.BRICK))
-                    .offerTo(consumer);
+                                   .pattern("#$#")
+                                   .pattern("#%#")
+                                   .pattern("###")
+                                   .input('#', Items.BRICK)
+                                   .input('$', Blocks.DIRT)
+                                   .input('%', Items.LIGHT_BLUE_DYE)
+                                   .criterion(FabricRecipeProvider.hasItem(Items.BRICK), FabricRecipeProvider.conditionsFromItem(Items.BRICK))
+                                   .offerTo(consumer);
 
             ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, ModBlocks.ICICLE, 8)
-                    .pattern("#")
-                    .pattern("#")
-                    .input('#', ModItemTags.ICE)
-                    .criterion("has_ice", FabricRecipeProvider.conditionsFromTag(ModItemTags.ICE))
-                    .offerTo(consumer);
+                                   .pattern("#")
+                                   .pattern("#")
+                                   .input('#', ModItemTags.ICE)
+                                   .criterion("has_ice", FabricRecipeProvider.conditionsFromTag(ModItemTags.ICE))
+                                   .offerTo(consumer);
 
             ShapedRecipeJsonBuilder.create(RecipeCategory.FOOD, ModItems.CANDY_CANE, 8)
-                    .pattern("#$")
-                    .pattern("X#")
-                    .input('#', ModItems.HARD_CANDY)
-                    .input('$', Items.RED_DYE)
-                    .input('X', Items.WHITE_DYE)
-                    .criterion(FabricRecipeProvider.hasItem(Items.SUGAR), FabricRecipeProvider.conditionsFromItem(Items.SUGAR))
-                    .offerTo(consumer);
+                                   .pattern("#$")
+                                   .pattern("X#")
+                                   .input('#', ModItems.HARD_CANDY)
+                                   .input('$', Items.RED_DYE)
+                                   .input('X', Items.WHITE_DYE)
+                                   .criterion(FabricRecipeProvider.hasItem(Items.SUGAR), FabricRecipeProvider.conditionsFromItem(Items.SUGAR))
+                                   .offerTo(consumer);
 
             ShapedRecipeJsonBuilder.create(RecipeCategory.FOOD, ModItems.CANDY_CANE, 8)
-                    .pattern("#X")
-                    .pattern("$#")
-                    .input('#', ModItems.HARD_CANDY)
-                    .input('$', Items.RED_DYE)
-                    .input('X', Items.WHITE_DYE)
-                    .criterion(FabricRecipeProvider.hasItem(Items.SUGAR), FabricRecipeProvider.conditionsFromItem(Items.SUGAR))
-                    .offerTo(consumer, "candy_cane_flipped");
+                                   .pattern("#X")
+                                   .pattern("$#")
+                                   .input('#', ModItems.HARD_CANDY)
+                                   .input('$', Items.RED_DYE)
+                                   .input('X', Items.WHITE_DYE)
+                                   .criterion(FabricRecipeProvider.hasItem(Items.SUGAR), FabricRecipeProvider.conditionsFromItem(Items.SUGAR))
+                                   .offerTo(consumer, "candy_cane_flipped");
 
             // Hard Candy
             ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, ModBlocks.HARD_CANDY_BLOCK)
-                    .pattern("##")
-                    .pattern("##")
-                    .input('#', ModItems.HARD_CANDY)
-                    .criterion(FabricRecipeProvider.hasItem(ModItems.HARD_CANDY), FabricRecipeProvider.conditionsFromItem(ModItems.HARD_CANDY))
-                    .offerTo(consumer);
+                                   .pattern("##")
+                                   .pattern("##")
+                                   .input('#', ModItems.HARD_CANDY)
+                                   .criterion(FabricRecipeProvider.hasItem(ModItems.HARD_CANDY), FabricRecipeProvider.conditionsFromItem(ModItems.HARD_CANDY))
+                                   .offerTo(consumer);
             ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, ModBlocks.HARD_CANDY_TILES, 4)
-                    .pattern("##")
-                    .pattern("##")
-                    .input('#', ModBlocks.HARD_CANDY_BLOCK)
-                    .criterion(FabricRecipeProvider.hasItem(ModItems.HARD_CANDY), FabricRecipeProvider.conditionsFromItem(ModItems.HARD_CANDY))
-                    .offerTo(consumer);
+                                   .pattern("##")
+                                   .pattern("##")
+                                   .input('#', ModBlocks.HARD_CANDY_BLOCK)
+                                   .criterion(FabricRecipeProvider.hasItem(ModItems.HARD_CANDY), FabricRecipeProvider.conditionsFromItem(ModItems.HARD_CANDY))
+                                   .offerTo(consumer);
             RecipeProvider.createStairsRecipe(ModBlocks.HARD_CANDY_TILE_STAIRS, Ingredient.ofItems(ModBlocks.HARD_CANDY_TILES))
-                    .criterion(FabricRecipeProvider.hasItem(ModBlocks.HARD_CANDY_TILES), FabricRecipeProvider.conditionsFromItem(ModBlocks.HARD_CANDY_TILES))
-                    .offerTo(consumer);
-            RecipeProvider.createSlabRecipe(
-                    RecipeCategory.BUILDING_BLOCKS,
-                    ModBlocks.HARD_CANDY_TILE_SLAB, Ingredient.ofItems(ModBlocks.HARD_CANDY_TILES))
-                    .criterion(FabricRecipeProvider.hasItem(ModBlocks.HARD_CANDY_TILES), FabricRecipeProvider.conditionsFromItem(ModBlocks.HARD_CANDY_TILES))
-                    .offerTo(consumer);
+                          .criterion(FabricRecipeProvider.hasItem(ModBlocks.HARD_CANDY_TILES), FabricRecipeProvider.conditionsFromItem(ModBlocks.HARD_CANDY_TILES))
+                          .offerTo(consumer);
+            RecipeProvider.createSlabRecipe(RecipeCategory.BUILDING_BLOCKS, ModBlocks.HARD_CANDY_TILE_SLAB, Ingredient.ofItems(ModBlocks.HARD_CANDY_TILES))
+                          .criterion(FabricRecipeProvider.hasItem(ModBlocks.HARD_CANDY_TILES), FabricRecipeProvider.conditionsFromItem(ModBlocks.HARD_CANDY_TILES))
+                          .offerTo(consumer);
             ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, ModBlocks.HARD_CANDY_PILLAR, 2)
-                    .pattern("#")
-                    .pattern("#")
-                    .input('#', ModBlocks.HARD_CANDY_TILES)
-                    .criterion(FabricRecipeProvider.hasItem(ModBlocks.HARD_CANDY_TILES), FabricRecipeProvider.conditionsFromItem(ModBlocks.HARD_CANDY_TILES))
-                    .offerTo(consumer);
+                                   .pattern("#")
+                                   .pattern("#")
+                                   .input('#', ModBlocks.HARD_CANDY_TILES)
+                                   .criterion(FabricRecipeProvider.hasItem(ModBlocks.HARD_CANDY_TILES), FabricRecipeProvider.conditionsFromItem(ModBlocks.HARD_CANDY_TILES))
+                                   .offerTo(consumer);
 
             // Candy Cane
             RecipeProvider.offer2x2CompactingRecipe(consumer, RecipeCategory.BUILDING_BLOCKS, ModBlocks.CANDY_CANE_TILES, ModItems.CANDY_CANE);
             RecipeProvider.createStairsRecipe(ModBlocks.CANDY_CANE_TILE_STAIRS, Ingredient.ofItems(ModBlocks.CANDY_CANE_TILES))
-                    .criterion(FabricRecipeProvider.hasItem(ModBlocks.CANDY_CANE_TILES), FabricRecipeProvider.conditionsFromItem(ModBlocks.CANDY_CANE_TILES))
-                    .offerTo(consumer);
-            RecipeProvider.createSlabRecipe(
-                            RecipeCategory.BUILDING_BLOCKS,
-                            ModBlocks.CANDY_CANE_TILE_SLAB, Ingredient.ofItems(ModBlocks.CANDY_CANE_TILES))
-                    .criterion(FabricRecipeProvider.hasItem(ModBlocks.CANDY_CANE_TILES), FabricRecipeProvider.conditionsFromItem(ModBlocks.CANDY_CANE_TILES))
-                    .offerTo(consumer);
+                          .criterion(FabricRecipeProvider.hasItem(ModBlocks.CANDY_CANE_TILES), FabricRecipeProvider.conditionsFromItem(ModBlocks.CANDY_CANE_TILES))
+                          .offerTo(consumer);
+            RecipeProvider.createSlabRecipe(RecipeCategory.BUILDING_BLOCKS, ModBlocks.CANDY_CANE_TILE_SLAB, Ingredient.ofItems(ModBlocks.CANDY_CANE_TILES))
+                          .criterion(FabricRecipeProvider.hasItem(ModBlocks.CANDY_CANE_TILES), FabricRecipeProvider.conditionsFromItem(ModBlocks.CANDY_CANE_TILES))
+                          .offerTo(consumer);
             ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, ModBlocks.CANDY_CANE_PILLAR, 2)
-                    .pattern("#")
-                    .pattern("#")
-                    .input('#', ModBlocks.CANDY_CANE_TILES)
-                    .criterion(FabricRecipeProvider.hasItem(ModBlocks.CANDY_CANE_TILES), FabricRecipeProvider.conditionsFromItem(ModBlocks.CANDY_CANE_TILES))
-                    .offerTo(consumer);
+                                   .pattern("#")
+                                   .pattern("#")
+                                   .input('#', ModBlocks.CANDY_CANE_TILES)
+                                   .criterion(FabricRecipeProvider.hasItem(ModBlocks.CANDY_CANE_TILES), FabricRecipeProvider.conditionsFromItem(ModBlocks.CANDY_CANE_TILES))
+                                   .offerTo(consumer);
 
             RecipeProvider.getWallRecipe(RecipeCategory.BUILDING_BLOCKS, ModBlocks.NORTH_POLE, Ingredient.ofItems(ModBlocks.CANDY_CANE_TILES))
-                    .criterion(FabricRecipeProvider.hasItem(ModBlocks.CANDY_CANE_TILES), FabricRecipeProvider.conditionsFromItem(ModBlocks.CANDY_CANE_TILES))
-                    .offerTo(consumer);
+                          .criterion(FabricRecipeProvider.hasItem(ModBlocks.CANDY_CANE_TILES), FabricRecipeProvider.conditionsFromItem(ModBlocks.CANDY_CANE_TILES))
+                          .offerTo(consumer);
 
             // Gingerbread
             RecipeProvider.offer2x2CompactingRecipe(consumer, RecipeCategory.BUILDING_BLOCKS, ModBlocks.GINGERBREAD_BLOCK, ModItems.GINGERBREAD_COOKIE);
             RecipeProvider.createStairsRecipe(ModBlocks.GINGERBREAD_BLOCK_STAIRS, Ingredient.ofItems(ModBlocks.GINGERBREAD_BLOCK))
-                    .criterion(FabricRecipeProvider.hasItem(ModBlocks.GINGERBREAD_BLOCK), FabricRecipeProvider.conditionsFromItem(ModBlocks.GINGERBREAD_BLOCK))
-                    .offerTo(consumer);
-            RecipeProvider.createSlabRecipe(
-                            RecipeCategory.BUILDING_BLOCKS,
-                            ModBlocks.GINGERBREAD_BLOCK_SLAB, Ingredient.ofItems(ModBlocks.GINGERBREAD_BLOCK))
-                    .criterion(FabricRecipeProvider.hasItem(ModBlocks.GINGERBREAD_BLOCK), FabricRecipeProvider.conditionsFromItem(ModBlocks.GINGERBREAD_BLOCK))
-                    .offerTo(consumer);
+                          .criterion(FabricRecipeProvider.hasItem(ModBlocks.GINGERBREAD_BLOCK), FabricRecipeProvider.conditionsFromItem(ModBlocks.GINGERBREAD_BLOCK))
+                          .offerTo(consumer);
+            RecipeProvider.createSlabRecipe(RecipeCategory.BUILDING_BLOCKS, ModBlocks.GINGERBREAD_BLOCK_SLAB, Ingredient.ofItems(ModBlocks.GINGERBREAD_BLOCK))
+                          .criterion(FabricRecipeProvider.hasItem(ModBlocks.GINGERBREAD_BLOCK), FabricRecipeProvider.conditionsFromItem(ModBlocks.GINGERBREAD_BLOCK))
+                          .offerTo(consumer);
 
             offer2x2ConversionRecipe(consumer, ModBlocks.GINGERBREAD_BRICKS, ModBlocks.GINGERBREAD_BLOCK);
             RecipeProvider.createStairsRecipe(ModBlocks.GINGERBREAD_BRICK_STAIRS, Ingredient.ofItems(ModBlocks.GINGERBREAD_BRICKS))
-                    .criterion(FabricRecipeProvider.hasItem(ModBlocks.GINGERBREAD_BRICKS), FabricRecipeProvider.conditionsFromItem(ModBlocks.GINGERBREAD_BRICKS))
-                    .offerTo(consumer);
-            RecipeProvider.createSlabRecipe(
-                            RecipeCategory.BUILDING_BLOCKS,
-                            ModBlocks.GINGERBREAD_BRICK_SLAB, Ingredient.ofItems(ModBlocks.GINGERBREAD_BRICKS))
-                    .criterion(FabricRecipeProvider.hasItem(ModBlocks.GINGERBREAD_BRICKS), FabricRecipeProvider.conditionsFromItem(ModBlocks.GINGERBREAD_BRICKS))
-                    .offerTo(consumer);
+                          .criterion(FabricRecipeProvider.hasItem(ModBlocks.GINGERBREAD_BRICKS), FabricRecipeProvider.conditionsFromItem(ModBlocks.GINGERBREAD_BRICKS))
+                          .offerTo(consumer);
+            RecipeProvider.createSlabRecipe(RecipeCategory.BUILDING_BLOCKS, ModBlocks.GINGERBREAD_BRICK_SLAB, Ingredient.ofItems(ModBlocks.GINGERBREAD_BRICKS))
+                          .criterion(FabricRecipeProvider.hasItem(ModBlocks.GINGERBREAD_BRICKS), FabricRecipeProvider.conditionsFromItem(ModBlocks.GINGERBREAD_BRICKS))
+                          .offerTo(consumer);
 
 
             offer2x2ConversionRecipe(consumer, ModBlocks.GINGERBREAD_SHINGLES, ModBlocks.GINGERBREAD_BRICKS);
             RecipeProvider.createStairsRecipe(ModBlocks.GINGERBREAD_SHINGLE_STAIRS, Ingredient.ofItems(ModBlocks.GINGERBREAD_SHINGLES))
-                    .criterion(FabricRecipeProvider.hasItem(ModBlocks.GINGERBREAD_SHINGLES), FabricRecipeProvider.conditionsFromItem(ModBlocks.GINGERBREAD_SHINGLES))
-                    .offerTo(consumer);
-            RecipeProvider.createSlabRecipe(
-                            RecipeCategory.BUILDING_BLOCKS,
-                            ModBlocks.GINGERBREAD_SHINGLE_SLAB, Ingredient.ofItems(ModBlocks.GINGERBREAD_SHINGLES))
-                    .criterion(FabricRecipeProvider.hasItem(ModBlocks.GINGERBREAD_SHINGLES), FabricRecipeProvider.conditionsFromItem(ModBlocks.GINGERBREAD_SHINGLES))
-                    .offerTo(consumer);
+                          .criterion(FabricRecipeProvider.hasItem(ModBlocks.GINGERBREAD_SHINGLES), FabricRecipeProvider.conditionsFromItem(ModBlocks.GINGERBREAD_SHINGLES))
+                          .offerTo(consumer);
+            RecipeProvider.createSlabRecipe(RecipeCategory.BUILDING_BLOCKS, ModBlocks.GINGERBREAD_SHINGLE_SLAB, Ingredient.ofItems(ModBlocks.GINGERBREAD_SHINGLES))
+                          .criterion(FabricRecipeProvider.hasItem(ModBlocks.GINGERBREAD_SHINGLES), FabricRecipeProvider.conditionsFromItem(ModBlocks.GINGERBREAD_SHINGLES))
+                          .offerTo(consumer);
 
             // Hard Candy Item
             CookingRecipeJsonBuilder.createSmelting(Ingredient.ofItems(Items.SUGAR), RecipeCategory.FOOD, ModItems.HARD_CANDY, 0f, 200)
-                    .criterion(FabricRecipeProvider.hasItem(Items.SUGAR), FabricRecipeProvider.conditionsFromItem(Items.SUGAR))
-                    .offerTo(consumer);
+                                    .criterion(FabricRecipeProvider.hasItem(Items.SUGAR), FabricRecipeProvider.conditionsFromItem(Items.SUGAR))
+                                    .offerTo(consumer);
             CookingRecipeJsonBuilder.createSmoking(Ingredient.ofItems(Items.SUGAR), RecipeCategory.FOOD, ModItems.HARD_CANDY, 0f, 100)
-                    .criterion(FabricRecipeProvider.hasItem(Items.SUGAR), FabricRecipeProvider.conditionsFromItem(Items.SUGAR))
-                    .offerTo(consumer, "hard_candy_smoking");
+                                    .criterion(FabricRecipeProvider.hasItem(Items.SUGAR), FabricRecipeProvider.conditionsFromItem(Items.SUGAR))
+                                    .offerTo(consumer, "hard_candy_smoking");
 
             ShapedRecipeJsonBuilder.create(RecipeCategory.FOOD, ModItems.GINGERBREAD_COOKIE, 8)
-                    .pattern(" # ")
-                    .pattern("$%$")
-                    .input('#', ModItems.WARM_SPICES)
-                    .input('$', Items.WHEAT)
-                    .input('%', Items.SUGAR)
-                    .criterion(FabricRecipeProvider.hasItem(Items.SUGAR), FabricRecipeProvider.conditionsFromItem(Items.SUGAR))
-                    .offerTo(consumer);
+                                   .pattern(" # ")
+                                   .pattern("$%$")
+                                   .input('#', ModItems.WARM_SPICES)
+                                   .input('$', Items.WHEAT)
+                                   .input('%', Items.SUGAR)
+                                   .criterion(FabricRecipeProvider.hasItem(Items.SUGAR), FabricRecipeProvider.conditionsFromItem(Items.SUGAR))
+                                   .offerTo(consumer);
 
             ShapelessRecipeJsonBuilder.create(RecipeCategory.FOOD, ModItems.CHOCOLATE_MILK_BUCKET)
-                    .input(Items.COCOA_BEANS)
-                    .input(Items.MILK_BUCKET)
-                    .input(Items.SUGAR)
-                    .criterion(FabricRecipeProvider.hasItem(Items.MILK_BUCKET), FabricRecipeProvider.conditionsFromItem(Items.MILK_BUCKET))
-                    .offerTo(consumer);
+                                      .input(Items.COCOA_BEANS)
+                                      .input(Items.MILK_BUCKET)
+                                      .input(Items.SUGAR)
+                                      .criterion(FabricRecipeProvider.hasItem(Items.MILK_BUCKET), FabricRecipeProvider.conditionsFromItem(Items.MILK_BUCKET))
+                                      .offerTo(consumer);
 
-            CookingRecipeJsonBuilder.createSmelting(Ingredient.ofItems(ModItems.CHOCOLATE_MILK_BUCKET), RecipeCategory.FOOD, ModItems.HOT_CHOCOLATE_BUCKET,
-                    0f, 200)
-                    .criterion(FabricRecipeProvider.hasItem(ModItems.CHOCOLATE_MILK_BUCKET), FabricRecipeProvider.conditionsFromItem(ModItems.CHOCOLATE_MILK_BUCKET))
-                    .offerTo(consumer);
-            CookingRecipeJsonBuilder.createSmoking(Ingredient.ofItems(ModItems.CHOCOLATE_MILK_BUCKET), RecipeCategory.FOOD, ModItems.HOT_CHOCOLATE_BUCKET,
-                            0f, 100)
-                    .criterion(FabricRecipeProvider.hasItem(ModItems.CHOCOLATE_MILK_BUCKET), FabricRecipeProvider.conditionsFromItem(ModItems.CHOCOLATE_MILK_BUCKET))
-                    .offerTo(consumer, "hot_chocolate_bucket_smoking");
+            CookingRecipeJsonBuilder.createSmelting(Ingredient.ofItems(ModItems.CHOCOLATE_MILK_BUCKET), RecipeCategory.FOOD, ModItems.HOT_CHOCOLATE_BUCKET, 0f, 200)
+                                    .criterion(FabricRecipeProvider.hasItem(ModItems.CHOCOLATE_MILK_BUCKET), FabricRecipeProvider.conditionsFromItem(ModItems.CHOCOLATE_MILK_BUCKET))
+                                    .offerTo(consumer);
+            CookingRecipeJsonBuilder.createSmoking(Ingredient.ofItems(ModItems.CHOCOLATE_MILK_BUCKET), RecipeCategory.FOOD, ModItems.HOT_CHOCOLATE_BUCKET, 0f, 100)
+                                    .criterion(FabricRecipeProvider.hasItem(ModItems.CHOCOLATE_MILK_BUCKET), FabricRecipeProvider.conditionsFromItem(ModItems.CHOCOLATE_MILK_BUCKET))
+                                    .offerTo(consumer, "hot_chocolate_bucket_smoking");
 
             createFestiveHatRecipe(ModItems.WHITE_FESTIVE_HAT.asItem(), Items.WHITE_DYE).offerTo(consumer);
             createFestiveHatRecipe(ModItems.LIGHT_GRAY_FESTIVE_HAT.asItem(), Items.LIGHT_GRAY_DYE).offerTo(consumer);
@@ -454,75 +442,75 @@ public class ModDataGenerator implements DataGeneratorEntrypoint {
 
         public ShapedRecipeJsonBuilder createFestiveHatRecipe(Item hat, Item dye) {
             return ShapedRecipeJsonBuilder.create(RecipeCategory.COMBAT, hat)
-                    .pattern("###")
-                    .pattern("#$#")
-                    .input('#', ItemTags.WOOL)
-                    .input('$', dye)
-                    .group("festive_hat")
-                    .criterion("has_wool", FabricRecipeProvider.conditionsFromTag(ItemTags.WOOL))
-                    .criterion(FabricRecipeProvider.hasItem(dye), FabricRecipeProvider.conditionsFromItem(dye));
+                                          .pattern("###")
+                                          .pattern("#$#")
+                                          .input('#', ItemTags.WOOL)
+                                          .input('$', dye)
+                                          .group("festive_hat")
+                                          .criterion("has_wool", FabricRecipeProvider.conditionsFromTag(ItemTags.WOOL))
+                                          .criterion(FabricRecipeProvider.hasItem(dye), FabricRecipeProvider.conditionsFromItem(dye));
         }
 
         public ShapedRecipeJsonBuilder createDyedOrnamentRecipe(Item ornament, Item dye) {
             return ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, ornament, 4)
-                    .pattern(" # ")
-                    .pattern("#X#")
-                    .pattern(" # ")
-                    .input('#', ModItemTags.ORNAMENT)
-                    .input('X', dye)
-                    .group("ornament")
-                    .criterion(FabricRecipeProvider.hasItem(ModBlocks.CLEAR_ORNAMENT), FabricRecipeProvider.conditionsFromItem(ModBlocks.CLEAR_ORNAMENT));
+                                          .pattern(" # ")
+                                          .pattern("#X#")
+                                          .pattern(" # ")
+                                          .input('#', ModItemTags.ORNAMENT)
+                                          .input('X', dye)
+                                          .group("ornament")
+                                          .criterion(FabricRecipeProvider.hasItem(ModBlocks.CLEAR_ORNAMENT), FabricRecipeProvider.conditionsFromItem(ModBlocks.CLEAR_ORNAMENT));
         }
 
         public ShapedRecipeJsonBuilder createDyedGarlandRecipe(Item garland, Item dye) {
             return ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, garland, 6)
-                    .pattern("$X$")
-                    .pattern("###")
-                    .input('#', ItemTags.LEAVES)
-                    .input('$', Items.STRING)
-                    .input('X', dye)
-                    .group("garland")
-                    .criterion("has_leaves", FabricRecipeProvider.conditionsFromTag(ItemTags.LEAVES));
+                                          .pattern("$X$")
+                                          .pattern("###")
+                                          .input('#', ItemTags.LEAVES)
+                                          .input('$', Items.STRING)
+                                          .input('X', dye)
+                                          .group("garland")
+                                          .criterion("has_leaves", FabricRecipeProvider.conditionsFromTag(ItemTags.LEAVES));
         }
 
         public ShapedRecipeJsonBuilder createGarlandFromHolidayLeavesRecipe(Item garland, Item holidayLeaves) {
             return ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, garland, 6)
-                    .pattern("$ $")
-                    .pattern("###")
-                    .input('#', holidayLeaves)
-                    .input('$', Items.STRING)
-                    .group("garland_from_holiday_leaves")
-                    .criterion(FabricRecipeProvider.hasItem(holidayLeaves), FabricRecipeProvider.conditionsFromItem(holidayLeaves));
+                                          .pattern("$ $")
+                                          .pattern("###")
+                                          .input('#', holidayLeaves)
+                                          .input('$', Items.STRING)
+                                          .group("garland_from_holiday_leaves")
+                                          .criterion(FabricRecipeProvider.hasItem(holidayLeaves), FabricRecipeProvider.conditionsFromItem(holidayLeaves));
         }
 
         public ShapedRecipeJsonBuilder createDyedHolidayLeavesRecipe(Item leaves, Item dye) {
             return ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, leaves, 8)
-                    .pattern("###")
-                    .pattern("#X#")
-                    .pattern("###")
-                    .input('#', ItemTags.LEAVES)
-                    .input('X', dye)
-                    .group("holiday_leaves")
-                    .criterion("has_leaves", FabricRecipeProvider.conditionsFromTag(ItemTags.LEAVES));
+                                          .pattern("###")
+                                          .pattern("#X#")
+                                          .pattern("###")
+                                          .input('#', ItemTags.LEAVES)
+                                          .input('X', dye)
+                                          .group("holiday_leaves")
+                                          .criterion("has_leaves", FabricRecipeProvider.conditionsFromTag(ItemTags.LEAVES));
         }
 
         public ShapedRecipeJsonBuilder createChristmasLightsRecipe(Item lights, Item dye) {
             return ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, lights, 6)
-                    .pattern("$X$")
-                    .pattern("###")
-                    .input('#', Items.GLASS_BOTTLE)
-                    .input('X', dye)
-                    .input('$', Items.STRING)
-                    .group("christmas_lights")
-                    .criterion(FabricRecipeProvider.hasItem(dye), FabricRecipeProvider.conditionsFromItem(dye))
-                    .criterion(FabricRecipeProvider.hasItem(Items.STRING), FabricRecipeProvider.conditionsFromItem(Items.STRING))
-                    .criterion(FabricRecipeProvider.hasItem(Items.GLASS_BOTTLE), FabricRecipeProvider.conditionsFromItem(Items.GLASS_BOTTLE));
+                                          .pattern("$X$")
+                                          .pattern("###")
+                                          .input('#', Items.GLASS_BOTTLE)
+                                          .input('X', dye)
+                                          .input('$', Items.STRING)
+                                          .group("christmas_lights")
+                                          .criterion(FabricRecipeProvider.hasItem(dye), FabricRecipeProvider.conditionsFromItem(dye))
+                                          .criterion(FabricRecipeProvider.hasItem(Items.STRING), FabricRecipeProvider.conditionsFromItem(Items.STRING))
+                                          .criterion(FabricRecipeProvider.hasItem(Items.GLASS_BOTTLE), FabricRecipeProvider.conditionsFromItem(Items.GLASS_BOTTLE));
         }
     }
 
     public static class ModBlockLootTables extends FabricBlockLootTableProvider {
-        protected ModBlockLootTables(FabricDataOutput dataOutput) {
-            super(dataOutput);
+        protected ModBlockLootTables(FabricDataOutput dataOutput, CompletableFuture<RegistryWrapper.WrapperLookup> registryLookup) {
+            super(dataOutput, registryLookup);
         }
 
         @Override
@@ -566,25 +554,32 @@ public class ModDataGenerator implements DataGeneratorEntrypoint {
     }
 
     public static class ModChestLootTables extends SimpleFabricLootTableProvider {
-        public ModChestLootTables(FabricDataOutput output) {
-            super(output, LootContextTypes.CHEST);
+        public ModChestLootTables(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> registryLookup) {
+            super(output, registryLookup, LootContextTypes.CHEST);
+        }
+
+
+        public RegistryKey<LootTable> key(String path) {
+            return RegistryKey.of(RegistryKeys.LOOT_TABLE, Identifier.of(RainbowChristmas.MOD_ID, path));
         }
 
         @Override
-        public void accept(BiConsumer<Identifier, LootTable.Builder> exporter) {
-            exporter.accept(Identifier.of(RainbowChristmas.MOD_ID, "gingerbread_house"),
-                    LootTable.builder().pool(LootPool.builder()
-                            .rolls(ConstantLootNumberProvider.create(24.0f))
-                            .with(ItemEntry.builder(ModItems.WARM_SPICES))
-                            .with(ItemEntry.builder(ModItems.CANDY_CANE))
-                            .with(ItemEntry.builder(ModItems.GINGERBREAD_COOKIE))));
-            exporter.accept(Identifier.of(RainbowChristmas.MOD_ID, "gingerbread_house_festive_hat_materials"),
-                    LootTable.builder().pool(LootPool.builder()
-                            .rolls(ConstantLootNumberProvider.create(15.0f))
-                            .with(ItemEntry.builder(Items.WHITE_WOOL).weight(4))
-                            .with(ItemEntry.builder(Items.RED_DYE))
-                            .with(ItemEntry.builder(Items.GREEN_DYE))
-                            .with(ItemEntry.builder(Items.WHITE_DYE))));
+        public void accept(BiConsumer<RegistryKey<LootTable>, LootTable.Builder> exporter) {
+            exporter.accept(key("gingerbread_house"), LootTable.builder()
+                                                               .pool(LootPool.builder()
+                                                                             .rolls(ConstantLootNumberProvider.create(24.0f))
+                                                                             .with(ItemEntry.builder(ModItems.WARM_SPICES))
+                                                                             .with(ItemEntry.builder(ModItems.CANDY_CANE))
+                                                                             .with(ItemEntry.builder(ModItems.GINGERBREAD_COOKIE))));
+            exporter.accept(key("gingerbread_house_festive_hat_materials"), LootTable.builder()
+                                                                                     .pool(LootPool.builder()
+                                                                                                   .rolls(ConstantLootNumberProvider.create(15.0f))
+                                                                                                   .with(ItemEntry.builder(Items.WHITE_WOOL)
+                                                                                                                  .weight(4))
+                                                                                                   .with(ItemEntry.builder(Items.RED_DYE))
+                                                                                                   .with(ItemEntry.builder(Items.GREEN_DYE))
+                                                                                                   .with(ItemEntry.builder(Items.WHITE_DYE))));
+
         }
     }
 }

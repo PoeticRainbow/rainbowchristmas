@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "group": "festive_hat",
+  "key": {
+    "#": {
+      "tag": "minecraft:wool"
+    },
+    "$": {
+      "item": "minecraft:magenta_dye"
+    }
+  },
+  "pattern": [
+    "###",
+    "#$#"
+  ],
+  "result": {
+    "count": 1,
+    "id": "rainbowchristmas:magenta_festive_hat"
+  }
+}

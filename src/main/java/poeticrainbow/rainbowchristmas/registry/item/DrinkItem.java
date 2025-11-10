@@ -1,5 +1,6 @@
 package poeticrainbow.rainbowchristmas.registry.item;
 
+import net.minecraft.component.DataComponentTypes;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -26,8 +27,9 @@ public class DrinkItem extends MilkBucketItem {
         if (!world.isClient() && clearEffects) {
             user.clearStatusEffects();
         }
-        if (stack.isFood()) {
-            user.eatFood(world, stack);
+        var components= stack.getComponents();
+        if (components.contains(DataComponentTypes.FOOD)) {
+            user.eatFood(world, stack, components.get(DataComponentTypes.FOOD));
         }
         return stack.isEmpty() ? new ItemStack(Items.BUCKET) : stack;
     }

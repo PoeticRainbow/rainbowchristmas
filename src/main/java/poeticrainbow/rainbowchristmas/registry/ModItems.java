@@ -1,8 +1,8 @@
 package poeticrainbow.rainbowchristmas.registry;
 
-import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
+import net.minecraft.component.type.FoodComponent;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.item.*;
 import net.minecraft.registry.Registries;
@@ -12,7 +12,6 @@ import net.minecraft.registry.RegistryKeys;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import poeticrainbow.rainbowchristmas.RainbowChristmas;
-import poeticrainbow.rainbowchristmas.registry.armor.FestiveArmorMaterial;
 import poeticrainbow.rainbowchristmas.registry.item.DrinkItem;
 import poeticrainbow.rainbowchristmas.registry.item.TooltipItem;
 
@@ -40,27 +39,34 @@ public class ModItems {
     public static final Item MAGENTA_FESTIVE_HAT = registerFestiveHat("magenta");
     public static final Item PINK_FESTIVE_HAT = registerFestiveHat("pink");
 
-    public static final Item HARD_CANDY = register(new Item(new FabricItemSettings()
-            .food(new FoodComponent.Builder().hunger(1).saturationModifier(0.2f).alwaysEdible().snack().build())), "hard_candy");
+    public static final Item HARD_CANDY = register(new Item(new Item.Settings()
+            .food(new FoodComponent.Builder().nutrition(1).saturationModifier(0.2f).alwaysEdible().snack().build())), "hard_candy");
 
     public static StatusEffectInstance christmasSpirit = new StatusEffectInstance(ModMisc.CHRISTMAS_SPIRIT, 300);
-    public static final Item CANDY_CANE = register(new Item(new FabricItemSettings()
-            .food(new FoodComponent.Builder().hunger(6).saturationModifier(0.6f).alwaysEdible().snack()
+    public static final Item CANDY_CANE = register(new Item(new Item.Settings()
+            .food(new FoodComponent.Builder().nutrition(6).saturationModifier(0.6f).alwaysEdible().snack()
             .statusEffect(christmasSpirit, 1.0f).build())), "candy_cane");
-    public static final Item GINGERBREAD_COOKIE = register(new Item(new FabricItemSettings()
-            .food(new FoodComponent.Builder().hunger(6).saturationModifier(0.6f).alwaysEdible().snack()
+    public static final Item GINGERBREAD_COOKIE = register(new Item(new Item.Settings()
+            .food(new FoodComponent.Builder().nutrition(6).saturationModifier(0.6f).alwaysEdible().snack()
             .statusEffect(christmasSpirit, 1.0f).build())), "gingerbread_cookie");
 
-    public static final Item CHOCOLATE_MILK_BUCKET = register(new DrinkItem(new FabricItemSettings().food(new FoodComponent.Builder().build())
+    public static final Item CHOCOLATE_MILK_BUCKET = register(new DrinkItem(new Item.Settings().food(new FoodComponent.Builder().build())
             .recipeRemainder(Items.BUCKET).maxCount(1), true), "chocolate_milk_bucket");
-    public static final Item HOT_CHOCOLATE_BUCKET = register(new DrinkItem(new FabricItemSettings().food(new FoodComponent.Builder()
+    public static final Item HOT_CHOCOLATE_BUCKET = register(new DrinkItem(new Item.Settings().food(new FoodComponent.Builder()
             .statusEffect(christmasSpirit, 1.0f).build()).recipeRemainder(Items.BUCKET).maxCount(1), false), "hot_chocolate_bucket");
 
-    public static final Item WARM_SPICES = register(new TooltipItem(new FabricItemSettings()), "warm_spices");
+    public static final Item WARM_SPICES = register(new TooltipItem(new Item.Settings()), "warm_spices");
 
     public static Item registerFestiveHat(String color) {
-        return register(new ArmorItem(new FestiveArmorMaterial(color), ArmorItem.Type.HELMET,
-                        new FabricItemSettings()), color + "_festive_hat");
+        var name = color + "_festive_hat";
+        return register(
+            new ArmorItem(
+                ModMisc.FESTIVE_MATERIALS.get(name),
+                ArmorItem.Type.HELMET,
+                new Item.Settings()
+            ),
+            name
+        );
     }
 
     public static Item register(Item item, String name) {

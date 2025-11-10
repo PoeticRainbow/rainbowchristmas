@@ -1,6 +1,5 @@
 package poeticrainbow.rainbowchristmas.registry;
 
-import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.*;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
@@ -14,29 +13,30 @@ import poeticrainbow.rainbowchristmas.registry.block.*;
 import java.util.List;
 
 public class ModBlocks {
-    public static Block CHRISTMAS_TREE_STAND = register(new ChristmasTreeStandBlock(FabricBlockSettings.create().mapColor(MapColor.LIGHT_BLUE)
+
+    public static Block CHRISTMAS_TREE_STAND = register(new ChristmasTreeStandBlock(AbstractBlock.Settings.create().mapColor(MapColor.LIGHT_BLUE)
             .nonOpaque().solidBlock(Blocks::never).suffocates(Blocks::never).blockVision(Blocks::never)),
             "christmas_tree_stand", true);
     public static Block MISTLETOE = register(new MistletoeBlock(AbstractBlock.Settings.create().sounds(BlockSoundGroup.GRASS).mapColor(MapColor.RED)
             .ticksRandomly().nonOpaque().solidBlock(Blocks::never).suffocates(Blocks::never).blockVision(Blocks::never)),
             "mistletoe", true);
-    public static Block FAUX_SNOW = register(new FauxSnowBlock(FabricBlockSettings.create().sounds(BlockSoundGroup.SNOW).mapColor(MapColor.WHITE_GRAY)
+    public static Block FAUX_SNOW = register(new FauxSnowBlock(AbstractBlock.Settings.create().sounds(BlockSoundGroup.SNOW).mapColor(MapColor.WHITE_GRAY)
             .nonOpaque().solidBlock(Blocks::never).suffocates(Blocks::never).blockVision(Blocks::never)),
             "faux_snow", true);
-    public static Block WREATH = register(new WallDecorationBlock(FabricBlockSettings.create().sounds(BlockSoundGroup.GRASS).mapColor(MapColor.GREEN)
+    public static Block WREATH = register(new WallDecorationBlock(AbstractBlock.Settings.create().sounds(BlockSoundGroup.GRASS).mapColor(MapColor.GREEN)
             .nonOpaque().solidBlock(Blocks::never).suffocates(Blocks::never).blockVision(Blocks::never)),
             "wreath", true);
-    public static Block STAR_TOPPER = register(new TreeTopperBlock(FabricBlockSettings.create().sounds(BlockSoundGroup.GLASS).mapColor(MapColor.GOLD)
-            .nonOpaque().solidBlock(Blocks::never).suffocates(Blocks::never).blockVision(Blocks::never).luminance(15)),
+    public static Block STAR_TOPPER = register(new TreeTopperBlock(AbstractBlock.Settings.create().sounds(BlockSoundGroup.GLASS).mapColor(MapColor.GOLD)
+            .nonOpaque().solidBlock(Blocks::never).suffocates(Blocks::never).blockVision(Blocks::never).luminance(value -> 15)),
             "star_topper", true);
-    public static Block ICICLE = register(new IcicleBlock(FabricBlockSettings.create().sounds(BlockSoundGroup.GLASS).mapColor(MapColor.LIGHT_BLUE)
+    public static Block ICICLE = register(new IcicleBlock(AbstractBlock.Settings.create().sounds(BlockSoundGroup.GLASS).mapColor(MapColor.LIGHT_BLUE)
             .nonOpaque().solidBlock(Blocks::never).suffocates(Blocks::never).blockVision(Blocks::never)),
             "icicle", true);
-    public static Block SHREDDER = register(new ShredderBlock(FabricBlockSettings.create().sounds(BlockSoundGroup.STONE).mapColor(MapColor.STONE_GRAY)
+    public static Block SHREDDER = register(new ShredderBlock(AbstractBlock.Settings.create().sounds(BlockSoundGroup.STONE).mapColor(MapColor.STONE_GRAY)
             .requiresTool().strength(0.8f, 3.0f)),
             "shredder", true);
 
-    public static AbstractBlock.Settings HARD_CANDY_SETTINGS = FabricBlockSettings.create().strength(0.8f, 3.0f).mapColor(MapColor.PALE_YELLOW).sounds(BlockSoundGroup.STONE);
+    public static AbstractBlock.Settings HARD_CANDY_SETTINGS = AbstractBlock.Settings.create().strength(0.8f, 3.0f).mapColor(MapColor.PALE_YELLOW).sounds(BlockSoundGroup.STONE);
     public static Block HARD_CANDY_BLOCK = register(new Block(HARD_CANDY_SETTINGS), "hard_candy_block", true);
     public static Block HARD_CANDY_TILES = register(new Block(HARD_CANDY_SETTINGS), "hard_candy_tiles", true);
     public static Block HARD_CANDY_TILE_STAIRS = register(new StairsBlock(HARD_CANDY_TILES.getDefaultState(), HARD_CANDY_SETTINGS),
@@ -44,7 +44,7 @@ public class ModBlocks {
     public static Block HARD_CANDY_TILE_SLAB = register(new SlabBlock(HARD_CANDY_SETTINGS), "hard_candy_tile_slab", true);
     public static Block HARD_CANDY_PILLAR = register(new PillarBlock(HARD_CANDY_SETTINGS), "hard_candy_pillar", true);
 
-    public static AbstractBlock.Settings CANDY_CANE_SETTINGS = FabricBlockSettings.create().strength(0.8f, 3.0f).mapColor(MapColor.RED).sounds(BlockSoundGroup.STONE);
+    public static AbstractBlock.Settings CANDY_CANE_SETTINGS = AbstractBlock.Settings.create().strength(0.8f, 3.0f).mapColor(MapColor.RED).sounds(BlockSoundGroup.STONE);
     public static Block CANDY_CANE_TILES = register(new Block(CANDY_CANE_SETTINGS),
             "candy_cane_tiles", true);
     public static Block CANDY_CANE_TILE_STAIRS = register(new StairsBlock(HARD_CANDY_TILES.getDefaultState(), CANDY_CANE_SETTINGS),
@@ -55,7 +55,7 @@ public class ModBlocks {
             "candy_cane_pillar", true);
     public static Block NORTH_POLE = register(new NorthPoleBlock(CANDY_CANE_SETTINGS), "north_pole", true);
 
-    public static AbstractBlock.Settings GINGERBREAD_SETTINGS = FabricBlockSettings.create().strength(0.8f, 3.0f).mapColor(MapColor.BROWN).sounds(BlockSoundGroup.STONE);
+    public static AbstractBlock.Settings GINGERBREAD_SETTINGS = AbstractBlock.Settings.create().strength(0.8f, 3.0f).mapColor(MapColor.BROWN).sounds(BlockSoundGroup.STONE);
     public static Block GINGERBREAD_BLOCK = register(new Block(GINGERBREAD_SETTINGS), "gingerbread_block", true);
     public static Block GINGERBREAD_BLOCK_STAIRS = register(new StairsBlock(GINGERBREAD_BLOCK.getDefaultState(), GINGERBREAD_SETTINGS),
             "gingerbread_block_stairs", true);
@@ -168,25 +168,25 @@ public class ModBlocks {
 
 
     public static Block registerOrnament(String name) {
-        return register(new OrnamentBlock(FabricBlockSettings.create().sounds(BlockSoundGroup.GLASS).nonOpaque()
+        return register(new OrnamentBlock(AbstractBlock.Settings.create().sounds(BlockSoundGroup.GLASS).nonOpaque()
                         .solidBlock(Blocks::never).suffocates(Blocks::never).blockVision(Blocks::never)),
                 name, true);
     }
 
     public static Block registerGarland(String name) {
-        return register(new GarlandBlock(FabricBlockSettings.create().sounds(BlockSoundGroup.GRASS).mapColor(MapColor.CLEAR)
+        return register(new GarlandBlock(AbstractBlock.Settings.create().sounds(BlockSoundGroup.GRASS).mapColor(MapColor.CLEAR)
                         .nonOpaque().solidBlock(Blocks::never).suffocates(Blocks::never).blockVision(Blocks::never)),
                 name, true);
     }
 
     public static Block registerChristmasLights(String name) {
-        return register(new ChristmasLightsBlock(FabricBlockSettings.create().sounds(BlockSoundGroup.WOOD).mapColor(MapColor.CLEAR)
-                        .nonOpaque().solidBlock(Blocks::never).suffocates(Blocks::never).blockVision(Blocks::never).luminance(15)),
+        return register(new ChristmasLightsBlock(AbstractBlock.Settings.create().sounds(BlockSoundGroup.WOOD).mapColor(MapColor.CLEAR)
+                        .nonOpaque().solidBlock(Blocks::never).suffocates(Blocks::never).blockVision(Blocks::never).luminance(value -> 15)),
                 name, true);
     }
 
     public static Block registerHolidayLeaves(String name, MapColor color) {
-        return register(new HolidayLeavesBlock(FabricBlockSettings.copyOf(Blocks.OAK_LEAVES).mapColor(color)
+        return register(new HolidayLeavesBlock(AbstractBlock.Settings.copy(Blocks.OAK_LEAVES).mapColor(color)
                         .nonOpaque().solidBlock(Blocks::never).suffocates(Blocks::never).blockVision(Blocks::never)),
                 name, true);
     }

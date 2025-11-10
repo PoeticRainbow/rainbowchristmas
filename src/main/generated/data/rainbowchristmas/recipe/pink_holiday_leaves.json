@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "holiday_leaves",
+  "key": {
+    "#": {
+      "tag": "minecraft:leaves"
+    },
+    "X": {
+      "item": "minecraft:pink_dye"
+    }
+  },
+  "pattern": [
+    "###",
+    "#X#",
+    "###"
+  ],
+  "result": {
+    "count": 8,
+    "id": "rainbowchristmas:pink_holiday_leaves"
+  }
+}
