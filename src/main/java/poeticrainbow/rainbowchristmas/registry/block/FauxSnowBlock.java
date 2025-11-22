@@ -4,19 +4,13 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ShapeContext;
 import net.minecraft.block.TransparentBlock;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemPlacementContext;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.EnumProperty;
 import net.minecraft.state.property.Properties;
-import net.minecraft.text.Style;
-import net.minecraft.text.Text;
 import net.minecraft.util.BlockMirror;
 import net.minecraft.util.BlockRotation;
-import net.minecraft.util.Formatting;
 import net.minecraft.util.StringIdentifiable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -28,10 +22,9 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldView;
 import net.minecraft.world.tick.ScheduledTickView;
 import org.jetbrains.annotations.Nullable;
+import poeticrainbow.rainbowchristmas.registry.TooltipContainer;
 
-import java.util.List;
-
-public class FauxSnowBlock extends TransparentBlock {
+public class FauxSnowBlock extends TransparentBlock implements TooltipContainer {
     public static final EnumProperty<FauxSnowShape> FAUX_SNOW_SHAPE;
     public static final EnumProperty<Direction> FACING;
 
@@ -48,23 +41,13 @@ public class FauxSnowBlock extends TransparentBlock {
     }
 
     @Override
-    public void appendTooltip(ItemStack stack, Item.TooltipContext context, List<Text> tooltip, TooltipType options) {
-        Text fauxSnowTooltip = Text.translatable("tooltip.rainbowchristmas.faux_snow");
-        String[] lines = fauxSnowTooltip.getString().split("\\n");
-        for (String line : lines) {
-            tooltip.add(Text.of(line).copy().setStyle(Style.EMPTY.withColor(Formatting.GRAY)));
-        }
-        super.appendTooltip(stack, context, tooltip, options);
-    }
-
-    @Override
     public VoxelShape getCollisionShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
         return VoxelShapes.empty();
     }
 
     @Override
     public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-        return createCuboidShape(-0.05, -2, -0.05, 16.05, 2, 16.05);
+        return createCuboidShape(-0.05, 0, -0.05, 16.05, 2, 16.05);
     }
 
     @Override
@@ -157,6 +140,11 @@ public class FauxSnowBlock extends TransparentBlock {
     static {
         FAUX_SNOW_SHAPE = EnumProperty.of("shape", FauxSnowShape.class);
         FACING = Properties.HORIZONTAL_FACING;
+    }
+
+    @Override
+    public String getTooltipTranslationKey() {
+        return "tooltip.rainbowchristmas.faux_snow";
     }
 
     public enum FauxSnowShape implements StringIdentifiable {

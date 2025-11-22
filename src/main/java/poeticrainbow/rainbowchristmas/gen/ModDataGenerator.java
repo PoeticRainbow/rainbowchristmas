@@ -15,7 +15,10 @@ import net.minecraft.client.data.BlockStateModelGenerator;
 import net.minecraft.client.data.ItemModelGenerator;
 import net.minecraft.client.data.Model;
 import net.minecraft.client.data.ModelIds;
-import net.minecraft.data.recipe.*;
+import net.minecraft.data.recipe.CookingRecipeJsonBuilder;
+import net.minecraft.data.recipe.RecipeExporter;
+import net.minecraft.data.recipe.RecipeGenerator;
+import net.minecraft.data.recipe.ShapedRecipeJsonBuilder;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.Items;
@@ -26,11 +29,14 @@ import net.minecraft.loot.entry.ItemEntry;
 import net.minecraft.loot.provider.number.ConstantLootNumberProvider;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.book.RecipeCategory;
-import net.minecraft.registry.*;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.util.Identifier;
+import org.jetbrains.annotations.NotNull;
 import poeticrainbow.rainbowchristmas.RainbowChristmas;
 import poeticrainbow.rainbowchristmas.registry.ModBlocks;
 import poeticrainbow.rainbowchristmas.registry.ModItems;
@@ -69,17 +75,21 @@ public class ModDataGenerator implements DataGeneratorEntrypoint {
 
         @Override
         public void generateItemModels(ItemModelGenerator generator) {
+            ModBlocks.GARLANDS.forEach(block -> generator.register(block.asItem()));
+            ModBlocks.CHRISTMAS_LIGHTS.forEach(block -> generator.register(block.asItem()));
+            ModBlocks.ORNAMENTS.forEach(block -> generator.register(block.asItem()));
+
+            generator.register(
+                ModBlocks.NORTH_POLE.asItem(),
+                new Model(Optional.of(RainbowChristmas.id("block/north_pole_middle")), Optional.empty())
+            );
+
+            ModItems.FESTIVE_HATS.forEach(generator::register);
+
             generator.register(ModBlocks.MISTLETOE.asItem());
             generator.register(ModBlocks.WREATH.asItem());
             generator.register(ModBlocks.STAR_TOPPER.asItem());
             generator.register(ModBlocks.ICICLE.asItem());
-            ModBlocks.GARLANDS.forEach(block -> generator.register(block.asItem()));
-            ModBlocks.CHRISTMAS_LIGHTS.forEach(block -> generator.register(block.asItem()));
-            ModBlocks.ORNAMENTS.forEach(block -> generator.register(block.asItem()));
-            generator.register(ModBlocks.NORTH_POLE.asItem(),
-                    new Model(Optional.of(RainbowChristmas.id("block/north_pole_middle")), Optional.empty()));
-
-            ModItems.FESTIVE_HATS.forEach(generator::register);
 
             generator.register(ModItems.HARD_CANDY);
             generator.register(ModItems.CANDY_CANE);
@@ -99,24 +109,24 @@ public class ModDataGenerator implements DataGeneratorEntrypoint {
         }
 
         @Override
-        protected void configure(RegistryWrapper.WrapperLookup wrapperLookup) {
-            getOrCreateTagBuilder(PLANT_SUSTAINABLE).add(ModBlocks.CHRISTMAS_TREE_STAND);
-            getOrCreateTagBuilder(BlockTags.DEAD_BUSH_MAY_PLACE_ON).add(ModBlocks.CHRISTMAS_TREE_STAND);
+        protected void configure(RegistryWrapper.@NotNull WrapperLookup wrapperLookup) {
+            valueLookupBuilder(PLANT_SUSTAINABLE).add(ModBlocks.CHRISTMAS_TREE_STAND);
+            valueLookupBuilder(BlockTags.DRY_VEGETATION_MAY_PLACE_ON).add(ModBlocks.CHRISTMAS_TREE_STAND);
 
             // Leaves
-            FabricTagProvider<Block>.FabricTagBuilder leavesBuilder = getOrCreateTagBuilder(BlockTags.LEAVES);
+            var leavesBuilder = valueLookupBuilder(BlockTags.LEAVES);
             ModBlocks.HOLIDAY_LEAVES.forEach(leavesBuilder::add);
 
             // Garland
-            FabricTagProvider<Block>.FabricTagBuilder garlandBuilder = getOrCreateTagBuilder(GARLAND);
+            var garlandBuilder = valueLookupBuilder(GARLAND);
             ModBlocks.GARLANDS.forEach(garlandBuilder::add);
 
             // Hoe Mineable
-            FabricTagProvider<Block>.FabricTagBuilder hoeMineableBuilder = getOrCreateTagBuilder(BlockTags.HOE_MINEABLE);
+            var hoeMineableBuilder = valueLookupBuilder(BlockTags.HOE_MINEABLE);
             ModBlocks.GARLANDS.forEach(hoeMineableBuilder::add);
             ModBlocks.HOLIDAY_LEAVES.forEach(hoeMineableBuilder::add);
 
-            FabricTagProvider<Block>.FabricTagBuilder pickaxeMineableBuilder = getOrCreateTagBuilder(BlockTags.PICKAXE_MINEABLE);
+            var pickaxeMineableBuilder = valueLookupBuilder(BlockTags.PICKAXE_MINEABLE);
             pickaxeMineableBuilder.add(ModBlocks.HARD_CANDY_BLOCK);
             pickaxeMineableBuilder.add(ModBlocks.HARD_CANDY_PILLAR);
             pickaxeMineableBuilder.add(ModBlocks.HARD_CANDY_TILES);
@@ -153,17 +163,17 @@ public class ModDataGenerator implements DataGeneratorEntrypoint {
         }
 
         @Override
-        protected void configure(RegistryWrapper.WrapperLookup wrapperLookup) {
-            FabricTagBuilder ornamentBuilder = getOrCreateTagBuilder(ORNAMENT);
+        protected void configure(RegistryWrapper.@NotNull WrapperLookup wrapperLookup) {
+            var ornamentBuilder = valueLookupBuilder(ORNAMENT);
             ModBlocks.ORNAMENTS.forEach(block -> ornamentBuilder.add(block.asItem()));
 
-            FabricTagBuilder garlandBuilder = getOrCreateTagBuilder(GARLAND);
+            var garlandBuilder = valueLookupBuilder(GARLAND);
             ModBlocks.GARLANDS.forEach(block -> garlandBuilder.add(block.asItem()));
 
-            FabricTagProvider<Item>.FabricTagBuilder leavesBuilder = getOrCreateTagBuilder(ItemTags.LEAVES);
+            var leavesBuilder = valueLookupBuilder(ItemTags.LEAVES);
             ModBlocks.HOLIDAY_LEAVES.forEach(block -> leavesBuilder.add(block.asItem()));
 
-            FabricTagBuilder iceBuilder = getOrCreateTagBuilder(ICE);
+            var iceBuilder = valueLookupBuilder(ICE);
             iceBuilder.add(Items.ICE, Items.PACKED_ICE, Items.BLUE_ICE);
         }
     }
@@ -174,7 +184,7 @@ public class ModDataGenerator implements DataGeneratorEntrypoint {
         }
 
         @Override
-        public RecipeGenerator getRecipeGenerator(RegistryWrapper.WrapperLookup registries, RecipeExporter consumer) {
+        public @NotNull RecipeGenerator getRecipeGenerator(RegistryWrapper.@NotNull WrapperLookup registries, @NotNull RecipeExporter consumer) {
             return new RecipeGenerator(registries, consumer) {
                 @Override
                 public void generate() {

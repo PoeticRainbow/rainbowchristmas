@@ -5,17 +5,11 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.FacingBlock;
 import net.minecraft.block.ShapeContext;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemPlacementContext;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.state.StateManager;
-import net.minecraft.text.Style;
-import net.minecraft.text.Text;
 import net.minecraft.util.BlockMirror;
 import net.minecraft.util.BlockRotation;
-import net.minecraft.util.Formatting;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
@@ -25,11 +19,11 @@ import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
+import poeticrainbow.rainbowchristmas.registry.TooltipContainer;
 
-import java.util.List;
 import java.util.Optional;
 
-public class OrnamentBlock extends FacingBlock {
+public class OrnamentBlock extends FacingBlock implements TooltipContainer {
     private static final VoxelShape UP_SHAPE;
     private static final VoxelShape NORTH_SHAPE;
     private static final VoxelShape EAST_SHAPE;
@@ -70,9 +64,8 @@ public class OrnamentBlock extends FacingBlock {
     }
 
     @Override
-    public void appendTooltip(ItemStack stack, Item.TooltipContext context, List<Text> tooltip, TooltipType options) {
-        tooltip.add(Text.translatable("tooltip.rainbowchristmas.ornament").setStyle(Style.EMPTY.withColor(Formatting.GRAY)));
-        super.appendTooltip(stack, context, tooltip, options);
+    public String getTooltipTranslationKey() {
+        return "tooltip.rainbowchristmas.ornament";
     }
 
     @Override
@@ -81,9 +74,11 @@ public class OrnamentBlock extends FacingBlock {
         Optional<Vec3d> closestPoint = getVoxelShapeFromFacing(state).getClosestPointTo(point);
         if (closestPoint.isPresent() && random.nextFloat() < 0.2) {
             Vec3d pointOnSurface = new Vec3d(pos.getX(), pos.getY(), pos.getZ()).add(closestPoint.get());
-            world.addParticle(ParticleTypes.END_ROD,
-                    pointOnSurface.getX(), pointOnSurface.getY(), pointOnSurface.getZ(),
-                    0d, 0.0d, 0d);
+            world.addParticleClient(
+                ParticleTypes.END_ROD,
+                pointOnSurface.getX(), pointOnSurface.getY(), pointOnSurface.getZ(),
+                0d, 0.0d, 0d
+            );
         }
     }
 

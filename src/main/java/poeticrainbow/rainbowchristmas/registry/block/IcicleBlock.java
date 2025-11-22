@@ -67,7 +67,7 @@ public class IcicleBlock extends Block {
         for (int i = 0; i < state.get(COUNT); i++) {
             droppedItems.addAll(super.getDroppedStacks(state, builder));
         }
-        return super.getDroppedStacks(state, builder);
+        return droppedItems;
     }
 
     @Override

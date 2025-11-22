@@ -8,7 +8,10 @@ import net.minecraft.component.type.EquippableComponent;
 import net.minecraft.component.type.FoodComponent;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.item.*;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemGroup;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.item.consume.ApplyEffectsConsumeEffect;
 import net.minecraft.item.consume.ClearAllEffectsConsumeEffect;
 import net.minecraft.item.equipment.ArmorMaterial;
@@ -31,9 +34,9 @@ import java.util.List;
 public class ModItems {
     public static final RegistryKey<ItemGroup> RAINBOW_CHRISTMAS_GROUP_KEY = RegistryKey.of(RegistryKeys.ITEM_GROUP, RainbowChristmas.id("rainbowchristmas"));
     public static final ItemGroup RAINBOW_CHRISTMAS_GROUP = FabricItemGroup.builder()
-            .icon(() -> new ItemStack(ModBlocks.STAR_TOPPER.asItem()))
-            .displayName(Text.translatable("itemGroup.rainbowChristmas"))
-            .build();
+                                                                           .icon(() -> new ItemStack(ModBlocks.STAR_TOPPER.asItem()))
+                                                                           .displayName(Text.translatable("itemGroup.rainbowChristmas"))
+                                                                           .build();
 
 
     public static final Item WHITE_FESTIVE_HAT = registerFestiveHat("white");
@@ -52,45 +55,93 @@ public class ModItems {
     public static final Item PURPLE_FESTIVE_HAT = registerFestiveHat("purple");
     public static final Item MAGENTA_FESTIVE_HAT = registerFestiveHat("magenta");
     public static final Item PINK_FESTIVE_HAT = registerFestiveHat("pink");
-    public static List<Item> FESTIVE_HATS = List.of(WHITE_FESTIVE_HAT, LIGHT_GRAY_FESTIVE_HAT, GRAY_FESTIVE_HAT, BLACK_FESTIVE_HAT,
-            BROWN_FESTIVE_HAT, RED_FESTIVE_HAT, ORANGE_FESTIVE_HAT, YELLOW_FESTIVE_HAT, LIME_FESTIVE_HAT, GREEN_FESTIVE_HAT,
-            CYAN_FESTIVE_HAT, LIGHT_BLUE_FESTIVE_HAT, BLUE_FESTIVE_HAT, PURPLE_FESTIVE_HAT, MAGENTA_FESTIVE_HAT, PINK_FESTIVE_HAT);
+    public static List<Item> FESTIVE_HATS = List.of(
+        WHITE_FESTIVE_HAT, LIGHT_GRAY_FESTIVE_HAT, GRAY_FESTIVE_HAT, BLACK_FESTIVE_HAT,
+        BROWN_FESTIVE_HAT, RED_FESTIVE_HAT, ORANGE_FESTIVE_HAT, YELLOW_FESTIVE_HAT, LIME_FESTIVE_HAT, GREEN_FESTIVE_HAT,
+        CYAN_FESTIVE_HAT, LIGHT_BLUE_FESTIVE_HAT, BLUE_FESTIVE_HAT, PURPLE_FESTIVE_HAT, MAGENTA_FESTIVE_HAT, PINK_FESTIVE_HAT
+    );
 
-    public static final Item HARD_CANDY = register(new Item(new Item.Settings().registryKey(keyOfItem("hard_candy"))
-            .component(DataComponentTypes.CONSUMABLE, ConsumableComponent.builder().consumeSeconds(0.5f).build())
-            .food(new FoodComponent.Builder().nutrition(1).saturationModifier(0.2f).alwaysEdible().build())), "hard_candy");
+    public static final Item HARD_CANDY = register(
+        new Item(new Item.Settings().registryKey(keyOfItem("hard_candy"))
+                                    .component(
+                                        DataComponentTypes.CONSUMABLE, ConsumableComponent.builder()
+                                                                                          .consumeSeconds(0.5f)
+                                                                                          .build()
+                                    )
+                                    .food(new FoodComponent.Builder().nutrition(1)
+                                                                     .saturationModifier(0.2f)
+                                                                     .alwaysEdible()
+                                                                     .build())), "hard_candy"
+    );
 
     public static StatusEffectInstance christmasSpirit = new StatusEffectInstance(ModMisc.CHRISTMAS_SPIRIT, 300);
-    public static ConsumableComponent christmasSpiritComponent = ConsumableComponent.builder().consumeSeconds(0.5f).consumeEffect(new ApplyEffectsConsumeEffect(christmasSpirit, 1.0f)).build();
+    public static ConsumableComponent christmasSpiritComponent = ConsumableComponent.builder()
+                                                                                    .consumeSeconds(0.5f)
+                                                                                    .consumeEffect(new ApplyEffectsConsumeEffect(christmasSpirit, 1.0f))
+                                                                                    .build();
 
-    public static final Item CANDY_CANE = register(new Item(new Item.Settings().registryKey(keyOfItem("candy_cane"))
-            .food(new FoodComponent.Builder().nutrition(6).saturationModifier(0.6f).alwaysEdible().build())
-            .component(DataComponentTypes.CONSUMABLE, christmasSpiritComponent)), "candy_cane");
-    public static final Item GINGERBREAD_COOKIE = register(new Item(new Item.Settings().registryKey(keyOfItem("gingerbread_cookie"))
-            .food(new FoodComponent.Builder().nutrition(6).saturationModifier(0.6f).alwaysEdible().build())
-            .component(DataComponentTypes.CONSUMABLE, christmasSpiritComponent)), "gingerbread_cookie");
+    public static final Item CANDY_CANE = register(
+        new Item(new Item.Settings().registryKey(keyOfItem("candy_cane"))
+                                    .food(new FoodComponent.Builder().nutrition(6)
+                                                                     .saturationModifier(0.6f)
+                                                                     .alwaysEdible()
+                                                                     .build())
+                                    .component(DataComponentTypes.CONSUMABLE, christmasSpiritComponent)), "candy_cane"
+    );
+    public static final Item GINGERBREAD_COOKIE = register(
+        new Item(new Item.Settings().registryKey(keyOfItem("gingerbread_cookie"))
+                                    .food(new FoodComponent.Builder().nutrition(6)
+                                                                     .saturationModifier(0.6f)
+                                                                     .alwaysEdible()
+                                                                     .build())
+                                    .component(DataComponentTypes.CONSUMABLE, christmasSpiritComponent)), "gingerbread_cookie"
+    );
 
-    public static final Item CHOCOLATE_MILK_BUCKET = register(new Item(new Item.Settings().registryKey(keyOfItem("chocolate_milk_bucket"))
-            .useRemainder(Items.BUCKET).maxCount(1)
-            .component(DataComponentTypes.CONSUMABLE, ConsumableComponent.builder()
-                    .consumeEffect(ClearAllEffectsConsumeEffect.INSTANCE).build())), "chocolate_milk_bucket");
+    public static final Item CHOCOLATE_MILK_BUCKET = register(
+        new Item(new Item.Settings().registryKey(keyOfItem("chocolate_milk_bucket"))
+                                    .useRemainder(Items.BUCKET)
+                                    .maxCount(1)
+                                    .component(
+                                        DataComponentTypes.CONSUMABLE, ConsumableComponent.builder()
+                                                                                          .consumeParticles(false)
+                                                                                          .sound(SoundEvents.ENTITY_GENERIC_DRINK)
+                                                                                          .consumeEffect(ClearAllEffectsConsumeEffect.INSTANCE)
+                                                                                          .build()
+                                    )), "chocolate_milk_bucket"
+    );
 
-    public static final Item HOT_CHOCOLATE_BUCKET = register(new Item(new Item.Settings().registryKey(keyOfItem("hot_chocolate_bucket"))
-            .useRemainder(Items.BUCKET).maxCount(1)
-            .component(DataComponentTypes.CONSUMABLE, ConsumableComponent.builder()
-                    .consumeEffect(ClearAllEffectsConsumeEffect.INSTANCE)
-                    .consumeEffect(new ApplyEffectsConsumeEffect(christmasSpirit, 1.0f)).build())), "hot_chocolate_bucket");
+    public static final Item HOT_CHOCOLATE_BUCKET = register(
+        new Item(new Item.Settings().registryKey(keyOfItem("hot_chocolate_bucket"))
+                                    .useRemainder(Items.BUCKET)
+                                    .maxCount(1)
+                                    .component(
+                                        DataComponentTypes.CONSUMABLE, ConsumableComponent.builder()
+                                                                                          .consumeParticles(false)
+                                                                                          .sound(SoundEvents.ENTITY_GENERIC_DRINK)
+                                                                                          .consumeEffect(ClearAllEffectsConsumeEffect.INSTANCE)
+                                                                                          .consumeEffect(new ApplyEffectsConsumeEffect(christmasSpirit, 1.0f))
+                                                                                          .build()
+                                    )), "hot_chocolate_bucket"
+    );
 
     public static final Item WARM_SPICES = register(new TooltipItem(new Item.Settings().registryKey(keyOfItem("warm_spices"))), "warm_spices");
 
     public static Item registerFestiveHat(String color) {
-        ArmorMaterial festiveArmorMaterial = new ArmorMaterial(200, Util.make(new EnumMap<>(EquipmentType.class), map -> map.put(EquipmentType.HELMET, 2)), 2, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, 0, 0, ItemTags.WOOL,
-                ModMisc.registerEquipment(color + "_festive_hat"));
-        return register(new ArmorItem(festiveArmorMaterial, EquipmentType.HELMET,
-                        new Item.Settings().registryKey(keyOfItem(color + "_festive_hat"))
-                                .component(DataComponentTypes.EQUIPPABLE,
-                                        EquippableComponent.builder(EquipmentSlot.HEAD).model(ModMisc.FESTIVE).build())),
-                        color + "_festive_hat");
+        ArmorMaterial festiveArmorMaterial = new ArmorMaterial(
+            200, Util.make(new EnumMap<>(EquipmentType.class), map -> map.put(EquipmentType.HELMET, 2)), 2, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, 0, 0, ItemTags.WOOL,
+            ModMisc.registerEquipment(color + "_festive_hat")
+        );
+        return register(
+            new Item(
+                new Item.Settings().registryKey(keyOfItem(color + "_festive_hat"))
+                                   .component(
+                                       DataComponentTypes.EQUIPPABLE,
+                                       EquippableComponent.builder(EquipmentSlot.HEAD).model(ModMisc.FESTIVE).build()
+                                   )
+                                   .armor(festiveArmorMaterial, EquipmentType.HELMET)
+            ),
+            color + "_festive_hat"
+        );
     }
 
     public static Item register(Item item, String name) {

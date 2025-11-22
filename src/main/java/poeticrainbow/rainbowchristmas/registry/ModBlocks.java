@@ -193,41 +193,72 @@ public class ModBlocks {
             CYAN_ORNAMENT, LIGHT_BLUE_ORNAMENT, BLUE_ORNAMENT, PURPLE_ORNAMENT, MAGENTA_ORNAMENT, PINK_ORNAMENT);
 
 
-
     public static Block registerOrnament(String name) {
-        return register(new OrnamentBlock(AbstractBlock.Settings.create()
-                        .registryKey(RegistryKey.of(RegistryKeys.BLOCK, RainbowChristmas.id(name)))
-                        .sounds(BlockSoundGroup.GLASS).nonOpaque()
-                        .solidBlock(Blocks::never).suffocates(Blocks::never).blockVision(Blocks::never)),
-                name, true);
+        return register(
+            new OrnamentBlock(AbstractBlock.Settings.create()
+                                                    .registryKey(RegistryKey.of(RegistryKeys.BLOCK, RainbowChristmas.id(name)))
+                                                    .sounds(BlockSoundGroup.GLASS)
+                                                    .nonOpaque()
+                                                    .solidBlock(Blocks::never)
+                                                    .suffocates(Blocks::never)
+                                                    .blockVision(Blocks::never)),
+            name, true
+        );
     }
 
     public static Block registerGarland(String name) {
-        return register(new GarlandBlock(AbstractBlock.Settings.create()
-                        .registryKey(RegistryKey.of(RegistryKeys.BLOCK, RainbowChristmas.id(name))).sounds(BlockSoundGroup.GRASS).mapColor(MapColor.CLEAR)
-                        .nonOpaque().solidBlock(Blocks::never).suffocates(Blocks::never).blockVision(Blocks::never)),
-                name, true);
+        return register(
+            new GarlandBlock(AbstractBlock.Settings.create()
+                                                   .registryKey(RegistryKey.of(RegistryKeys.BLOCK, RainbowChristmas.id(name)))
+                                                   .sounds(BlockSoundGroup.GRASS)
+                                                   .mapColor(MapColor.CLEAR)
+                                                   .nonOpaque()
+                                                   .solidBlock(Blocks::never)
+                                                   .suffocates(Blocks::never)
+                                                   .blockVision(Blocks::never)),
+            name, true
+        );
     }
 
     public static Block registerChristmasLights(String name) {
-        return register(new ChristmasLightsBlock(AbstractBlock.Settings.create()
-                        .registryKey(RegistryKey.of(RegistryKeys.BLOCK, RainbowChristmas.id(name))).sounds(BlockSoundGroup.WOOD).mapColor(MapColor.CLEAR)
-                        .nonOpaque().solidBlock(Blocks::never).suffocates(Blocks::never).blockVision(Blocks::never).luminance(value -> 15)),
-                name, true);
+        return register(
+            new ChristmasLightsBlock(AbstractBlock.Settings.create()
+                                                           .registryKey(RegistryKey.of(RegistryKeys.BLOCK, RainbowChristmas.id(name)))
+                                                           .sounds(BlockSoundGroup.WOOD)
+                                                           .mapColor(MapColor.CLEAR)
+                                                           .nonOpaque()
+                                                           .solidBlock(Blocks::never)
+                                                           .suffocates(Blocks::never)
+                                                           .blockVision(Blocks::never)
+                                                           .luminance(value -> 15)),
+            name, true
+        );
     }
 
     public static Block registerHolidayLeaves(String name, MapColor color) {
-        return register(new HolidayLeavesBlock(AbstractBlock.Settings.copy(Blocks.OAK_LEAVES)
-                        .registryKey(RegistryKey.of(RegistryKeys.BLOCK, RainbowChristmas.id(name))).mapColor(color)
-                        .nonOpaque().solidBlock(Blocks::never).suffocates(Blocks::never).blockVision(Blocks::never)),
-                name, true);
+        return register(
+            new HolidayLeavesBlock(
+                0.0f, AbstractBlock.Settings.copy(Blocks.OAK_LEAVES)
+                                            .registryKey(RegistryKey.of(RegistryKeys.BLOCK, RainbowChristmas.id(name)))
+                                            .mapColor(color)
+                                            .nonOpaque()
+                                            .solidBlock(Blocks::never)
+                                            .suffocates(Blocks::never)
+                                            .blockVision(Blocks::never)
+            ),
+            name, true
+        );
     }
 
     public static Block register(Block block, String name, boolean makeItem) {
         Identifier id = RainbowChristmas.id(name);
-        if (makeItem)
-            ModItems.register(new BlockItem(block, new Item.Settings().useBlockPrefixedTranslationKey()
-                .registryKey(RegistryKey.of(RegistryKeys.ITEM, RainbowChristmas.id(name)))), name);
+        if (makeItem) {
+            var blockItem = new BlockItem(
+                block, new Item.Settings().useBlockPrefixedTranslationKey()
+                                          .registryKey(RegistryKey.of(RegistryKeys.ITEM, RainbowChristmas.id(name)))
+            );
+            ModItems.register(blockItem, name);
+        }
         return Registry.register(Registries.BLOCK, id, block);
     }
 
