@@ -1,26 +1,26 @@
 package poeticrainbow.rainbowchristmas.registry.block;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.ShapeContext;
-import net.minecraft.block.TransparentBlock;
-import net.minecraft.item.ItemPlacementContext;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.state.StateManager;
-import net.minecraft.state.property.EnumProperty;
-import net.minecraft.state.property.Properties;
-import net.minecraft.util.BlockMirror;
-import net.minecraft.util.BlockRotation;
-import net.minecraft.util.StringIdentifiable;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.random.Random;
-import net.minecraft.util.shape.VoxelShape;
-import net.minecraft.util.shape.VoxelShapes;
-import net.minecraft.world.BlockView;
-import net.minecraft.world.World;
-import net.minecraft.world.WorldView;
-import net.minecraft.world.tick.ScheduledTickView;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
+import net.minecraft.util.StringRepresentable;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.ScheduledTickAccess;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Mirror;
+import net.minecraft.world.level.block.Rotation;
+import net.minecraft.world.level.block.TransparentBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 import poeticrainbow.rainbowchristmas.registry.TooltipContainer;
 
@@ -28,57 +28,57 @@ public class FauxSnowBlock extends TransparentBlock implements TooltipContainer 
     public static final EnumProperty<FauxSnowShape> FAUX_SNOW_SHAPE;
     public static final EnumProperty<Direction> FACING;
 
-    public FauxSnowBlock(Settings settings) {
+    public FauxSnowBlock(Properties settings) {
         super(settings);
-        this.setDefaultState(this.getStateManager().getDefaultState().with(FAUX_SNOW_SHAPE, FauxSnowShape.FLAT).with(FACING, Direction.NORTH));
+        this.registerDefaultState(this.getStateDefinition().any().setValue(FAUX_SNOW_SHAPE, FauxSnowShape.FLAT).setValue(FACING, Direction.NORTH));
     }
 
     @Override
-    protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        super.appendProperties(builder);
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+        super.createBlockStateDefinition(builder);
         builder.add(FAUX_SNOW_SHAPE);
         builder.add(FACING);
     }
 
     @Override
-    public VoxelShape getCollisionShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-        return VoxelShapes.empty();
+    public VoxelShape getCollisionShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
+        return Shapes.empty();
     }
 
     @Override
-    public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-        return createCuboidShape(-0.05, 0, -0.05, 16.05, 2, 16.05);
+    public VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
+        return box(-0.05, 0, -0.05, 16.05, 2, 16.05);
     }
 
     @Override
-    public boolean isSideInvisible(BlockState state, BlockState stateFrom, Direction direction) {
+    public boolean skipRendering(BlockState state, BlockState stateFrom, Direction direction) {
         if (direction == Direction.DOWN) {
-            return stateFrom.isOpaque();
+            return stateFrom.canOcclude();
         }
         return stateFrom.equals(state);
     }
 
-    public BlockState updateBlockStateFromBelow(BlockState blockBelow, World world, BlockPos pos) {
-        BlockState defaultState = this.getStateManager().getDefaultState();
+    public BlockState updateBlockStateFromBelow(BlockState blockBelow, Level world, BlockPos pos) {
+        BlockState defaultState = this.getStateDefinition().any();
 
-        if (blockBelow.isSideSolidFullSquare(world, pos, Direction.UP)) {
+        if (blockBelow.isFaceSturdy(world, pos, Direction.UP)) {
             return defaultState;
         }
 
         // Slab handling
-        double maxYBelow = blockBelow.getOutlineShape(world, pos).getMax(Direction.Axis.Y);
+        double maxYBelow = blockBelow.getShape(world, pos).max(Direction.Axis.Y);
         if (maxYBelow > 0.375d && maxYBelow < 0.625) {
-            defaultState = defaultState.with(FAUX_SNOW_SHAPE, FauxSnowShape.SLAB);
+            defaultState = defaultState.setValue(FAUX_SNOW_SHAPE, FauxSnowShape.SLAB);
         }
         // Stair handling
-        if (blockBelow.getOrEmpty(Properties.STAIR_SHAPE).isPresent()) {
-            defaultState = defaultState.with(FACING, blockBelow.get(Properties.HORIZONTAL_FACING));
-            switch (blockBelow.get(Properties.STAIR_SHAPE)) {
-                case STRAIGHT -> defaultState = defaultState.with(FAUX_SNOW_SHAPE, FauxSnowShape.STRAIGHT);
-                case OUTER_LEFT -> defaultState = defaultState.with(FAUX_SNOW_SHAPE, FauxSnowShape.OUTER_LEFT);
-                case OUTER_RIGHT -> defaultState = defaultState.with(FAUX_SNOW_SHAPE, FauxSnowShape.OUTER_RIGHT);
-                case INNER_LEFT -> defaultState = defaultState.with(FAUX_SNOW_SHAPE, FauxSnowShape.INNER_LEFT);
-                case INNER_RIGHT -> defaultState = defaultState.with(FAUX_SNOW_SHAPE, FauxSnowShape.INNER_RIGHT);
+        if (blockBelow.getOptionalValue(BlockStateProperties.STAIRS_SHAPE).isPresent()) {
+            defaultState = defaultState.setValue(FACING, blockBelow.getValue(BlockStateProperties.HORIZONTAL_FACING));
+            switch (blockBelow.getValue(BlockStateProperties.STAIRS_SHAPE)) {
+                case STRAIGHT -> defaultState = defaultState.setValue(FAUX_SNOW_SHAPE, FauxSnowShape.STRAIGHT);
+                case OUTER_LEFT -> defaultState = defaultState.setValue(FAUX_SNOW_SHAPE, FauxSnowShape.OUTER_LEFT);
+                case OUTER_RIGHT -> defaultState = defaultState.setValue(FAUX_SNOW_SHAPE, FauxSnowShape.OUTER_RIGHT);
+                case INNER_LEFT -> defaultState = defaultState.setValue(FAUX_SNOW_SHAPE, FauxSnowShape.INNER_LEFT);
+                case INNER_RIGHT -> defaultState = defaultState.setValue(FAUX_SNOW_SHAPE, FauxSnowShape.INNER_RIGHT);
             }
         }
 
@@ -87,59 +87,59 @@ public class FauxSnowBlock extends TransparentBlock implements TooltipContainer 
 
     @Nullable
     @Override
-    public BlockState getPlacementState(ItemPlacementContext ctx) {
-        BlockState blockBelow = ctx.getWorld().getBlockState(ctx.getBlockPos().down());
-        BlockState defaultState = this.getStateManager().getDefaultState();
+    public BlockState getStateForPlacement(BlockPlaceContext ctx) {
+        BlockState blockBelow = ctx.getLevel().getBlockState(ctx.getClickedPos().below());
+        BlockState defaultState = this.getStateDefinition().any();
 
-        if (blockBelow.isSideSolidFullSquare(ctx.getWorld(), ctx.getBlockPos(), Direction.UP)) {
+        if (blockBelow.isFaceSturdy(ctx.getLevel(), ctx.getClickedPos(), Direction.UP)) {
             return defaultState;
         }
 
-        return updateBlockStateFromBelow(blockBelow, ctx.getWorld(), ctx.getBlockPos());
+        return updateBlockStateFromBelow(blockBelow, ctx.getLevel(), ctx.getClickedPos());
     }
 
     @Override
-    protected BlockState getStateForNeighborUpdate(BlockState state, WorldView world, ScheduledTickView tickView, BlockPos pos, Direction direction, BlockPos neighborPos, BlockState neighborState, Random random) {
-        if (!this.canPlaceAt(state, world, pos)) {
-            tickView.scheduleBlockTick(pos, this, 1);
+    protected BlockState updateShape(BlockState state, LevelReader world, ScheduledTickAccess tickView, BlockPos pos, Direction direction, BlockPos neighborPos, BlockState neighborState, RandomSource random) {
+        if (!this.canSurvive(state, world, pos)) {
+            tickView.scheduleTick(pos, this, 1);
         }
-        if (world instanceof World worldWorld) {
-            return updateBlockStateFromBelow(world.getBlockState(pos.down()), worldWorld, pos);
+        if (world instanceof Level worldWorld) {
+            return updateBlockStateFromBelow(world.getBlockState(pos.below()), worldWorld, pos);
         }
         return state;
     }
 
     @Override
-    public float getAmbientOcclusionLightLevel(BlockState state, BlockView world, BlockPos pos) {
+    public float getShadeBrightness(BlockState state, BlockGetter world, BlockPos pos) {
         return 1.0f;
     }
 
     @Override
-    public void scheduledTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
-        if (!this.canPlaceAt(state, world, pos)) {
-            world.breakBlock(pos, true);
+    public void tick(BlockState state, ServerLevel world, BlockPos pos, RandomSource random) {
+        if (!this.canSurvive(state, world, pos)) {
+            world.destroyBlock(pos, true);
         }
     }
 
     @Override
-    public boolean canPlaceAt(BlockState state, WorldView world, BlockPos pos) {
-        BlockState blockBelow = world.getBlockState(pos.down());
-        return !blockBelow.isAir() && !blockBelow.isOf(this);
+    public boolean canSurvive(BlockState state, LevelReader world, BlockPos pos) {
+        BlockState blockBelow = world.getBlockState(pos.below());
+        return !blockBelow.isAir() && !blockBelow.is(this);
     }
 
     @Override
-    public BlockState mirror(BlockState state, BlockMirror mirror) {
-        return state.with(FACING, mirror.apply(state.get(FACING)));
+    public BlockState mirror(BlockState state, Mirror mirror) {
+        return state.setValue(FACING, mirror.mirror(state.getValue(FACING)));
     }
 
     @Override
-    public BlockState rotate(BlockState state, BlockRotation rotation) {
-        return state.with(FACING, rotation.rotate(state.get(FACING)));
+    public BlockState rotate(BlockState state, Rotation rotation) {
+        return state.setValue(FACING, rotation.rotate(state.getValue(FACING)));
     }
 
     static {
-        FAUX_SNOW_SHAPE = EnumProperty.of("shape", FauxSnowShape.class);
-        FACING = Properties.HORIZONTAL_FACING;
+        FAUX_SNOW_SHAPE = EnumProperty.create("shape", FauxSnowShape.class);
+        FACING = BlockStateProperties.HORIZONTAL_FACING;
     }
 
     @Override
@@ -147,7 +147,7 @@ public class FauxSnowBlock extends TransparentBlock implements TooltipContainer 
         return "tooltip.rainbowchristmas.faux_snow";
     }
 
-    public enum FauxSnowShape implements StringIdentifiable {
+    public enum FauxSnowShape implements StringRepresentable {
         FLAT("full"),
         SLAB("slab"),
         STRAIGHT("straight_stair"),
@@ -166,7 +166,7 @@ public class FauxSnowBlock extends TransparentBlock implements TooltipContainer 
             return this.name;
         }
 
-        public String asString() {
+        public String getSerializedName() {
             return this.name;
         }
     }

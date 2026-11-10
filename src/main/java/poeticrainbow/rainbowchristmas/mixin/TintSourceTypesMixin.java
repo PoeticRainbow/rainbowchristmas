@@ -1,10 +1,10 @@
 package poeticrainbow.rainbowchristmas.mixin;
 
 import com.mojang.serialization.MapCodec;
-import net.minecraft.client.render.item.tint.TintSource;
-import net.minecraft.client.render.item.tint.TintSourceTypes;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.dynamic.Codecs;
+import net.minecraft.client.color.item.ItemTintSource;
+import net.minecraft.client.color.item.ItemTintSources;
+import net.minecraft.resources.Identifier;
+import net.minecraft.util.ExtraCodecs;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -14,9 +14,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import poeticrainbow.rainbowchristmas.RainbowChristmas;
 import poeticrainbow.rainbowchristmas.render.RainbowTintSource;
 
-@Mixin(TintSourceTypes.class)
+@Mixin(ItemTintSources.class)
 public class TintSourceTypesMixin {
-    @Shadow @Final public static Codecs.IdMapper<Identifier, MapCodec<? extends TintSource>> ID_MAPPER;
+    @Shadow @Final public static ExtraCodecs.LateBoundIdMapper<Identifier, MapCodec<? extends ItemTintSource>> ID_MAPPER;
 
     @Inject(method = "bootstrap()V", at = @At("TAIL"))
     private static void inject(CallbackInfo ci) {

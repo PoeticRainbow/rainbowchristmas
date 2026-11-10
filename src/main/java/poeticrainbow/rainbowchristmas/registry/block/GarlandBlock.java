@@ -1,25 +1,25 @@
 package poeticrainbow.rainbowchristmas.registry.block;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.block.ShapeContext;
-import net.minecraft.util.function.BooleanBiFunction;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.shape.VoxelShape;
-import net.minecraft.util.shape.VoxelShapes;
-import net.minecraft.world.BlockView;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.shapes.BooleanOp;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import poeticrainbow.rainbowchristmas.registry.TooltipContainer;
 
 public class GarlandBlock extends StrungDecorationBlock implements TooltipContainer {
-    public GarlandBlock(Settings settings) {
+    public GarlandBlock(Properties settings) {
         super(settings);
     }
 
 
     @Override
-    public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-        VoxelShape shape = super.getOutlineShape(state, world, pos, context);
+    public VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
+        VoxelShape shape = super.getShape(state, world, pos, context);
         if (shape.isEmpty())
-            return VoxelShapes.combine(ALL_SHAPE, VoxelShapes.cuboid(0, 0.5, 0, 1, 1, 1), BooleanBiFunction.AND);
+            return Shapes.joinUnoptimized(ALL_SHAPE, Shapes.box(0, 0.5, 0, 1, 1, 1), BooleanOp.AND);
         return shape;
     }
 

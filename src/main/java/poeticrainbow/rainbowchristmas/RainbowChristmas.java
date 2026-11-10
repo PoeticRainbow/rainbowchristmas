@@ -5,13 +5,13 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
 import net.fabricmc.fabric.api.client.rendering.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
-import net.minecraft.client.render.BlockRenderLayer;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.ItemStack;
-import net.minecraft.text.Style;
-import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
-import net.minecraft.util.Identifier;
+import net.minecraft.ChatFormatting;
+import net.minecraft.client.renderer.chunk.ChunkSectionLayer;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Style;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.ItemStack;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import poeticrainbow.rainbowchristmas.registry.ModBlocks;
@@ -38,28 +38,28 @@ public class RainbowChristmas implements ModInitializer, ClientModInitializer {
         //ColorProviderRegistry.ITEM.register(MulticolorProvider::rainbowItemColorProvider, ModBlocks.RAINBOW_HOLIDAY_LEAVES.asItem());
         ColorProviderRegistry.BLOCK.register(MulticolorProvider::holidayLeavesBlockColorProvider, ModBlocks.RAINBOW_HOLIDAY_LEAVES);
 
-        BlockRenderLayerMap.putBlock(ModBlocks.CHRISTMAS_TREE_STAND, BlockRenderLayer.CUTOUT);
-        BlockRenderLayerMap.putBlock(ModBlocks.FAUX_SNOW, BlockRenderLayer.CUTOUT);
-        BlockRenderLayerMap.putBlock(ModBlocks.MISTLETOE, BlockRenderLayer.CUTOUT);
-        BlockRenderLayerMap.putBlock(ModBlocks.WREATH, BlockRenderLayer.CUTOUT);
-        BlockRenderLayerMap.putBlock(ModBlocks.STAR_TOPPER, BlockRenderLayer.CUTOUT);
-        BlockRenderLayerMap.putBlock(ModBlocks.ICICLE, BlockRenderLayer.CUTOUT);
-        BlockRenderLayerMap.putBlock(ModBlocks.NORTH_POLE, BlockRenderLayer.CUTOUT);
+        BlockRenderLayerMap.putBlock(ModBlocks.CHRISTMAS_TREE_STAND, ChunkSectionLayer.CUTOUT);
+        BlockRenderLayerMap.putBlock(ModBlocks.FAUX_SNOW, ChunkSectionLayer.CUTOUT);
+        BlockRenderLayerMap.putBlock(ModBlocks.MISTLETOE, ChunkSectionLayer.CUTOUT);
+        BlockRenderLayerMap.putBlock(ModBlocks.WREATH, ChunkSectionLayer.CUTOUT);
+        BlockRenderLayerMap.putBlock(ModBlocks.STAR_TOPPER, ChunkSectionLayer.CUTOUT);
+        BlockRenderLayerMap.putBlock(ModBlocks.ICICLE, ChunkSectionLayer.CUTOUT);
+        BlockRenderLayerMap.putBlock(ModBlocks.NORTH_POLE, ChunkSectionLayer.CUTOUT);
 
-        ModBlocks.ORNAMENTS.forEach(block -> BlockRenderLayerMap.putBlock(block, BlockRenderLayer.CUTOUT));
-        ModBlocks.GARLANDS.forEach(block -> BlockRenderLayerMap.putBlock(block, BlockRenderLayer.CUTOUT));
-        ModBlocks.CHRISTMAS_LIGHTS.forEach(block -> BlockRenderLayerMap.putBlock(block, BlockRenderLayer.CUTOUT));
-        ModBlocks.HOLIDAY_LEAVES.forEach(block -> BlockRenderLayerMap.putBlock(block, BlockRenderLayer.CUTOUT));
+        ModBlocks.ORNAMENTS.forEach(block -> BlockRenderLayerMap.putBlock(block, ChunkSectionLayer.CUTOUT));
+        ModBlocks.GARLANDS.forEach(block -> BlockRenderLayerMap.putBlock(block, ChunkSectionLayer.CUTOUT));
+        ModBlocks.CHRISTMAS_LIGHTS.forEach(block -> BlockRenderLayerMap.putBlock(block, ChunkSectionLayer.CUTOUT));
+        ModBlocks.HOLIDAY_LEAVES.forEach(block -> BlockRenderLayerMap.putBlock(block, ChunkSectionLayer.CUTOUT));
 
         ItemTooltipCallback.EVENT.register((stack, context, tooltipType, list) -> {
             var container = getTooltipContainerFromStack(stack);
             if (container != null) {
                 var key = container.getTooltipTranslationKey();
 
-                Text tooltip = Text.translatable(key);
+                Component tooltip = Component.translatable(key);
                 String[] lines = tooltip.getString().split("\\n");
                 for (String line : lines) {
-                    list.add(Text.of(line).copy().setStyle(Style.EMPTY.withColor(Formatting.GRAY)));
+                    list.add(Component.nullToEmpty(line).copy().setStyle(Style.EMPTY.withColor(ChatFormatting.GRAY)));
                 }
             }
         });
@@ -82,6 +82,6 @@ public class RainbowChristmas implements ModInitializer, ClientModInitializer {
     }
 
     public static Identifier id(String name) {
-        return Identifier.of(MOD_ID, name);
+        return Identifier.fromNamespaceAndPath(MOD_ID, name);
     }
 }

@@ -6,9 +6,9 @@ import org.spongepowered.asm.mixin.injection.At;
 
 import java.time.LocalDate;
 
-@Mixin(net.minecraft.client.render.block.entity.ChestBlockEntityRenderer.class)
+@Mixin(net.minecraft.client.renderer.blockentity.ChestRenderer.class)
 public class ChestBlockEntityRenderer {
-    @ModifyReturnValue(method = "isAroundChristmas()Z", at = @At("RETURN"))
+    @ModifyReturnValue(method = "xmasTextures()Z", at = @At("RETURN"))
     private static boolean rainbowchristmas$force_christmas_chests(boolean original) {
         return original || LocalDate.now().getMonthValue() == 12;
     }

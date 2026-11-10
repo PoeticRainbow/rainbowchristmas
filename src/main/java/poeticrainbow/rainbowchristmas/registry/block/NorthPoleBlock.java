@@ -1,22 +1,22 @@
 package poeticrainbow.rainbowchristmas.registry.block;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.ShapeContext;
-import net.minecraft.item.ItemPlacementContext;
-import net.minecraft.state.StateManager;
-import net.minecraft.state.property.EnumProperty;
-import net.minecraft.util.StringIdentifiable;
-import net.minecraft.util.function.BooleanBiFunction;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.random.Random;
-import net.minecraft.util.shape.VoxelShape;
-import net.minecraft.util.shape.VoxelShapes;
-import net.minecraft.world.BlockView;
-import net.minecraft.world.World;
-import net.minecraft.world.WorldView;
-import net.minecraft.world.tick.ScheduledTickView;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.util.RandomSource;
+import net.minecraft.util.StringRepresentable;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.ScheduledTickAccess;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
+import net.minecraft.world.phys.shapes.BooleanOp;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
 public class NorthPoleBlock extends Block {
@@ -26,20 +26,20 @@ public class NorthPoleBlock extends Block {
     public static VoxelShape TOP_SHAPE;
     public static VoxelShape FULL_SHAPE;
 
-    public NorthPoleBlock(Settings settings) {
+    public NorthPoleBlock(Properties settings) {
         super(settings);
-        getStateManager().getDefaultState().with(POLE_SHAPE, PoleShape.FULL);
+        getStateDefinition().any().setValue(POLE_SHAPE, PoleShape.FULL);
     }
 
     @Override
-    protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        super.appendProperties(builder);
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+        super.createBlockStateDefinition(builder);
         builder.add(POLE_SHAPE);
     }
 
     @Override
-    public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-        return switch(state.get(POLE_SHAPE)) {
+    public VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
+        return switch(state.getValue(POLE_SHAPE)) {
             case BOTTOM -> BOTTOM_SHAPE;
             case MIDDLE -> MIDDLE_SHAPE;
             case TOP -> TOP_SHAPE;
@@ -47,26 +47,26 @@ public class NorthPoleBlock extends Block {
         };
     }
 
-    public BlockState getStateFromNeighborBlocks(World world, BlockPos pos) {
-        BlockState state = getDefaultState();
+    public BlockState getStateFromNeighborBlocks(Level world, BlockPos pos) {
+        BlockState state = defaultBlockState();
 
-        BlockState blockBelow = world.getBlockState(pos.down());
-        BlockState blockAbove = world.getBlockState(pos.up());
-        boolean isPoleBelow = blockBelow.isOf(this);
-        boolean isPoleAbove = blockAbove.isOf(this);
+        BlockState blockBelow = world.getBlockState(pos.below());
+        BlockState blockAbove = world.getBlockState(pos.above());
+        boolean isPoleBelow = blockBelow.is(this);
+        boolean isPoleAbove = blockAbove.is(this);
 
         if (isPoleBelow) {
-            state = isPoleAbove ? state.with(POLE_SHAPE, PoleShape.MIDDLE) : state.with(POLE_SHAPE, PoleShape.TOP);
+            state = isPoleAbove ? state.setValue(POLE_SHAPE, PoleShape.MIDDLE) : state.setValue(POLE_SHAPE, PoleShape.TOP);
         }
         if (!isPoleAbove && !isPoleBelow) {
-            state = state.with(POLE_SHAPE, PoleShape.FULL);
+            state = state.setValue(POLE_SHAPE, PoleShape.FULL);
         }
         return state;
     }
 
     @Override
-    protected BlockState getStateForNeighborUpdate(BlockState state, WorldView world, ScheduledTickView tickView, BlockPos pos, Direction direction, BlockPos neighborPos, BlockState neighborState, Random random) {
-        if (neighborState.isOf(this) && direction.getAxis().isVertical() && world instanceof World worldWorld) {
+    protected BlockState updateShape(BlockState state, LevelReader world, ScheduledTickAccess tickView, BlockPos pos, Direction direction, BlockPos neighborPos, BlockState neighborState, RandomSource random) {
+        if (neighborState.is(this) && direction.getAxis().isVertical() && world instanceof Level worldWorld) {
             return getStateFromNeighborBlocks(worldWorld, pos);
         }
         return state;
@@ -74,19 +74,19 @@ public class NorthPoleBlock extends Block {
 
     @Nullable
     @Override
-    public BlockState getPlacementState(ItemPlacementContext ctx) {
-        return getStateFromNeighborBlocks(ctx.getWorld(), ctx.getBlockPos());
+    public BlockState getStateForPlacement(BlockPlaceContext ctx) {
+        return getStateFromNeighborBlocks(ctx.getLevel(), ctx.getClickedPos());
     }
 
     static {
-        MIDDLE_SHAPE = createCuboidShape(4, 0, 4, 12, 16, 12);
-        BOTTOM_SHAPE = VoxelShapes.combine(MIDDLE_SHAPE, createCuboidShape(0, 0, 0, 16, 2, 16), BooleanBiFunction.OR);
-        TOP_SHAPE = VoxelShapes.combine(MIDDLE_SHAPE, createCuboidShape(0, 14, 0, 16, 16, 16), BooleanBiFunction.OR);
-        FULL_SHAPE = VoxelShapes.combine(BOTTOM_SHAPE, TOP_SHAPE, BooleanBiFunction.OR);
-        POLE_SHAPE = EnumProperty.of("shape", PoleShape.class);
+        MIDDLE_SHAPE = box(4, 0, 4, 12, 16, 12);
+        BOTTOM_SHAPE = Shapes.joinUnoptimized(MIDDLE_SHAPE, box(0, 0, 0, 16, 2, 16), BooleanOp.OR);
+        TOP_SHAPE = Shapes.joinUnoptimized(MIDDLE_SHAPE, box(0, 14, 0, 16, 16, 16), BooleanOp.OR);
+        FULL_SHAPE = Shapes.joinUnoptimized(BOTTOM_SHAPE, TOP_SHAPE, BooleanOp.OR);
+        POLE_SHAPE = EnumProperty.create("shape", PoleShape.class);
     }
 
-    public enum PoleShape implements StringIdentifiable {
+    public enum PoleShape implements StringRepresentable {
         BOTTOM("bottom"),
         MIDDLE("middle"),
         TOP("top"),
@@ -99,13 +99,13 @@ public class NorthPoleBlock extends Block {
         }
 
         @Override
-        public String asString() {
+        public String getSerializedName() {
             return name;
         }
 
         @Override
         public String toString() {
-            return asString();
+            return getSerializedName();
         }
     }
 }

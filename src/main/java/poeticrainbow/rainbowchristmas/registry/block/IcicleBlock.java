@@ -1,103 +1,103 @@
 package poeticrainbow.rainbowchristmas.registry.block;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.ShapeContext;
-import net.minecraft.item.ItemPlacementContext;
-import net.minecraft.item.ItemStack;
-import net.minecraft.loot.context.LootWorldContext;
-import net.minecraft.registry.tag.BlockTags;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.state.StateManager;
-import net.minecraft.state.property.IntProperty;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.random.Random;
-import net.minecraft.util.shape.VoxelShape;
-import net.minecraft.world.BlockView;
-import net.minecraft.world.World;
-import net.minecraft.world.WorldView;
-import net.minecraft.world.tick.ScheduledTickView;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.ScheduledTickAccess;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.IntegerProperty;
+import net.minecraft.world.level.storage.loot.LootParams;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class IcicleBlock extends Block {
-    public static final IntProperty COUNT;
+    public static final IntegerProperty COUNT;
     public static final VoxelShape SHAPE;
 
-    public IcicleBlock(Settings settings) {
+    public IcicleBlock(Properties settings) {
         super(settings);
-        setDefaultState(getStateManager().getDefaultState().with(COUNT, 1));
+        registerDefaultState(getStateDefinition().any().setValue(COUNT, 1));
     }
 
     @Override
-    protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        super.appendProperties(builder);
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+        super.createBlockStateDefinition(builder);
         builder.add(COUNT);
     }
 
     @Nullable
     @Override
-    public BlockState getPlacementState(ItemPlacementContext ctx) {
-        BlockState blockState = ctx.getWorld().getBlockState(ctx.getBlockPos());
-        if (blockState.isOf(this)) {
-            return blockState.with(COUNT, Math.min(4, blockState.get(COUNT) + 1));
+    public BlockState getStateForPlacement(BlockPlaceContext ctx) {
+        BlockState blockState = ctx.getLevel().getBlockState(ctx.getClickedPos());
+        if (blockState.is(this)) {
+            return blockState.setValue(COUNT, Math.min(4, blockState.getValue(COUNT) + 1));
         }
-        return super.getPlacementState(ctx);
+        return super.getStateForPlacement(ctx);
     }
 
     @Override
-    public boolean canPlaceAt(BlockState state, WorldView world, BlockPos pos) {
-        return canSurvive((World) world, pos);
+    public boolean canSurvive(BlockState state, LevelReader world, BlockPos pos) {
+        return canSurvive((Level) world, pos);
     }
 
     @Override
-    public boolean canReplace(BlockState state, ItemPlacementContext ctx) {
-        if (ctx.getStack().isOf(this.asItem()) && state.get(COUNT) < 4) {
+    public boolean canBeReplaced(BlockState state, BlockPlaceContext ctx) {
+        if (ctx.getItemInHand().is(this.asItem()) && state.getValue(COUNT) < 4) {
             return true;
         }
 
-        return super.canReplace(state, ctx);
+        return super.canBeReplaced(state, ctx);
     }
 
     @Override
-    protected List<ItemStack> getDroppedStacks(BlockState state, LootWorldContext.Builder builder) {
+    protected List<ItemStack> getDrops(BlockState state, LootParams.Builder builder) {
         List<ItemStack> droppedItems = new java.util.ArrayList<>(List.of());
-        for (int i = 0; i < state.get(COUNT); i++) {
-            droppedItems.addAll(super.getDroppedStacks(state, builder));
+        for (int i = 0; i < state.getValue(COUNT); i++) {
+            droppedItems.addAll(super.getDrops(state, builder));
         }
         return droppedItems;
     }
 
     @Override
-    public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+    public VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
         return SHAPE;
     }
 
-    public boolean canSurvive(World world, BlockPos pos) {
-        BlockState blockAbove = world.getBlockState(pos.up());
-        return blockAbove.isSideSolidFullSquare(world, pos, Direction.DOWN) || blockAbove.isIn(BlockTags.LEAVES);
+    public boolean canSurvive(Level world, BlockPos pos) {
+        BlockState blockAbove = world.getBlockState(pos.above());
+        return blockAbove.isFaceSturdy(world, pos, Direction.DOWN) || blockAbove.is(BlockTags.LEAVES);
     }
 
     @Override
-    public void scheduledTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
+    public void tick(BlockState state, ServerLevel world, BlockPos pos, RandomSource random) {
         if (!canSurvive(world, pos)) {
-            world.breakBlock(pos, true);
+            world.destroyBlock(pos, true);
         }
-        super.scheduledTick(state, world, pos, random);
+        super.tick(state, world, pos, random);
     }
 
     @Override
-    protected BlockState getStateForNeighborUpdate(BlockState state, WorldView world, ScheduledTickView tickView, BlockPos pos, Direction direction, BlockPos neighborPos, BlockState neighborState, Random random) {
-        if (direction == Direction.UP && !canSurvive((World) world, pos)) {
-            tickView.scheduleBlockTick(pos, this, 1);
+    protected BlockState updateShape(BlockState state, LevelReader world, ScheduledTickAccess tickView, BlockPos pos, Direction direction, BlockPos neighborPos, BlockState neighborState, RandomSource random) {
+        if (direction == Direction.UP && !canSurvive((Level) world, pos)) {
+            tickView.scheduleTick(pos, this, 1);
         }
         return state;
     }
 
     static {
-        COUNT = IntProperty.of("count", 1, 4);
-        SHAPE = createCuboidShape(2, 2, 2, 14, 16, 14);
+        COUNT = IntegerProperty.create("count", 1, 4);
+        SHAPE = box(2, 2, 2, 14, 16, 14);
     }
 }

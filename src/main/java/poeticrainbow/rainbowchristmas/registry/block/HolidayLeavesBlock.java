@@ -2,31 +2,31 @@ package poeticrainbow.rainbowchristmas.registry.block;
 
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.block.LeavesBlock;
-import net.minecraft.util.dynamic.Codecs;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.random.Random;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.util.ExtraCodecs;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.LeavesBlock;
 
 public class HolidayLeavesBlock extends LeavesBlock {
     public static final MapCodec<HolidayLeavesBlock> CODEC = RecordCodecBuilder.mapCodec((instance) -> instance.group(
-        Codecs.rangedInclusiveFloat(0.0F, 1.0F)
+        ExtraCodecs.floatRange(0.0F, 1.0F)
               .fieldOf("leaf_particle_chance")
-              .forGetter((block) -> block.leafParticleChance), createSettingsCodec()
+              .forGetter((block) -> block.leafParticleChance), propertiesCodec()
     ).apply(instance, HolidayLeavesBlock::new));
 
     @Override
-    public MapCodec<? extends LeavesBlock> getCodec() {
+    public MapCodec<? extends LeavesBlock> codec() {
         return CODEC;
     }
 
-    public HolidayLeavesBlock(float leafParticleChance, Settings settings) {
+    public HolidayLeavesBlock(float leafParticleChance, Properties settings) {
         super(leafParticleChance, settings);
-        setDefaultState(getStateManager().getDefaultState().with(PERSISTENT, true).with(WATERLOGGED, false));
+        registerDefaultState(getStateDefinition().any().setValue(PERSISTENT, true).setValue(WATERLOGGED, false));
     }
 
     @Override
-    protected void spawnLeafParticle(World world, BlockPos pos, Random random) {
+    protected void spawnFallingLeavesParticle(Level world, BlockPos pos, RandomSource random) {
 
     }
 }

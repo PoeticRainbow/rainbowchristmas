@@ -1,18 +1,18 @@
 package poeticrainbow.rainbowchristmas.registry.item;
 
-import net.minecraft.item.Item;
-import net.minecraft.registry.Registries;
-import net.minecraft.util.Identifier;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.item.Item;
 import poeticrainbow.rainbowchristmas.registry.TooltipContainer;
 
 public class TooltipItem extends Item implements TooltipContainer {
-    public TooltipItem(Settings settings) {
+    public TooltipItem(Properties settings) {
         super(settings);
     }
 
     @Override
     public String getTooltipTranslationKey() {
-        Identifier id = Registries.ITEM.getId(this);
+        Identifier id = BuiltInRegistries.ITEM.getKey(this);
         return "tooltip." + id.getNamespace() + "." + id.getPath();
     }
 }

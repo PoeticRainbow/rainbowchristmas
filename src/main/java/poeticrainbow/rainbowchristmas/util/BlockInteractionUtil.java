@@ -1,9 +1,9 @@
 package poeticrainbow.rainbowchristmas.util;
 
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.util.Mth;
+import net.minecraft.world.phys.Vec3;
 
 public class BlockInteractionUtil {
 
@@ -20,15 +20,15 @@ public class BlockInteractionUtil {
             V
             N
     **/
-    public static Direction getDirectionOfClosestSideFromHitPosition(Vec3d hitPos, BlockPos blockPos) {
+    public static Direction getDirectionOfClosestSideFromHitPosition(Vec3 hitPos, BlockPos blockPos) {
         Direction side = Direction.DOWN;
-        Vec3d hitPosWithinBlock = hitPos.add(blockPos.toCenterPos().negate());
+        Vec3 hitPosWithinBlock = hitPos.add(blockPos.getCenter().reverse());
 
-        double hitX = hitPosWithinBlock.getX();
-        double hitZ = hitPosWithinBlock.getZ();
+        double hitX = hitPosWithinBlock.x();
+        double hitZ = hitPosWithinBlock.z();
 
         // If the distance on the Z axis is more significant, NS; else EW
-        if (MathHelper.abs((float) hitZ) > MathHelper.abs((float) hitX)) {
+        if (Mth.abs((float) hitZ) > Mth.abs((float) hitX)) {
             if (hitZ > 0) side = Direction.NORTH;
             if (hitZ < 0) side = Direction.SOUTH;
         } else {
