@@ -79,6 +79,11 @@ public class ModDataGenerator implements DataGeneratorEntrypoint {
             ModBlocks.CHRISTMAS_LIGHTS.forEach(block -> generator.declareCustomModelItem(block.asItem()));
             ModBlocks.ORNAMENTS.forEach(block -> generator.declareCustomModelItem(block.asItem()));
 
+            ModBlocks.HOLIDAY_LEAVES.forEach(block -> {
+                if (block.equals(ModBlocks.RAINBOW_HOLIDAY_LEAVES)) return;
+                generator.declareCustomModelItem(block.asItem());
+            });
+
             generator.generateFlatItem(
                 ModBlocks.NORTH_POLE.asItem(),
                 new ModelTemplate(Optional.of(RainbowChristmas.id("block/north_pole_middle")), Optional.empty())
@@ -86,17 +91,40 @@ public class ModDataGenerator implements DataGeneratorEntrypoint {
 
             ModItems.FESTIVE_HATS.forEach(generator::declareCustomModelItem);
 
-            generator.declareCustomModelItem(ModBlocks.MISTLETOE.asItem());
-            generator.declareCustomModelItem(ModBlocks.WREATH.asItem());
-            generator.declareCustomModelItem(ModBlocks.STAR_TOPPER.asItem());
-            generator.declareCustomModelItem(ModBlocks.ICICLE.asItem());
-
             generator.declareCustomModelItem(ModItems.HARD_CANDY);
             generator.declareCustomModelItem(ModItems.CANDY_CANE);
             generator.declareCustomModelItem(ModItems.GINGERBREAD_COOKIE);
             generator.declareCustomModelItem(ModItems.CHOCOLATE_MILK_BUCKET);
             generator.declareCustomModelItem(ModItems.HOT_CHOCOLATE_BUCKET);
             generator.declareCustomModelItem(ModItems.WARM_SPICES);
+            generator.declareCustomModelItem(ModBlocks.CHRISTMAS_TREE_STAND.asItem());
+            generator.declareCustomModelItem(ModBlocks.MISTLETOE.asItem());
+            generator.declareCustomModelItem(ModBlocks.FAUX_SNOW.asItem());
+            generator.declareCustomModelItem(ModBlocks.WREATH.asItem());
+            generator.declareCustomModelItem(ModBlocks.STAR_TOPPER.asItem());
+            generator.declareCustomModelItem(ModBlocks.ICICLE.asItem());
+            generator.declareCustomModelItem(ModBlocks.SHREDDER.asItem());
+
+            generator.declareCustomModelItem(ModBlocks.HARD_CANDY_BLOCK.asItem());
+            generator.declareCustomModelItem(ModBlocks.HARD_CANDY_TILES.asItem());
+            generator.declareCustomModelItem(ModBlocks.HARD_CANDY_TILE_STAIRS.asItem());
+            generator.declareCustomModelItem(ModBlocks.HARD_CANDY_TILE_SLAB.asItem());
+            generator.declareCustomModelItem(ModBlocks.HARD_CANDY_PILLAR.asItem());
+
+            generator.declareCustomModelItem(ModBlocks.CANDY_CANE_TILES.asItem());
+            generator.declareCustomModelItem(ModBlocks.CANDY_CANE_TILE_STAIRS.asItem());
+            generator.declareCustomModelItem(ModBlocks.CANDY_CANE_TILE_SLAB.asItem());
+            generator.declareCustomModelItem(ModBlocks.CANDY_CANE_PILLAR.asItem());
+
+            generator.declareCustomModelItem(ModBlocks.GINGERBREAD_BLOCK.asItem());
+            generator.declareCustomModelItem(ModBlocks.GINGERBREAD_BLOCK_SLAB.asItem());
+            generator.declareCustomModelItem(ModBlocks.GINGERBREAD_BLOCK_STAIRS.asItem());
+            generator.declareCustomModelItem(ModBlocks.GINGERBREAD_BRICKS.asItem());
+            generator.declareCustomModelItem(ModBlocks.GINGERBREAD_BRICK_SLAB.asItem());
+            generator.declareCustomModelItem(ModBlocks.GINGERBREAD_BRICK_STAIRS.asItem());
+            generator.declareCustomModelItem(ModBlocks.GINGERBREAD_SHINGLES.asItem());
+            generator.declareCustomModelItem(ModBlocks.GINGERBREAD_SHINGLE_SLAB.asItem());
+            generator.declareCustomModelItem(ModBlocks.GINGERBREAD_SHINGLE_STAIRS.asItem());
         }
     }
 
