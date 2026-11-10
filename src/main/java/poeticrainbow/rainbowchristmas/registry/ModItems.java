@@ -1,7 +1,7 @@
 package poeticrainbow.rainbowchristmas.registry;
 
-import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
-import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
+import net.fabricmc.fabric.api.creativetab.v1.CreativeModeTabEvents;
+import net.fabricmc.fabric.api.creativetab.v1.FabricCreativeModeTab;
 import net.minecraft.core.Registry;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -33,10 +33,10 @@ import java.util.List;
 
 public class ModItems {
     public static final ResourceKey<CreativeModeTab> RAINBOW_CHRISTMAS_GROUP_KEY = ResourceKey.create(Registries.CREATIVE_MODE_TAB, RainbowChristmas.id("rainbowchristmas"));
-    public static final CreativeModeTab RAINBOW_CHRISTMAS_GROUP = FabricItemGroup.builder()
-                                                                           .icon(() -> new ItemStack(ModBlocks.STAR_TOPPER.asItem()))
-                                                                           .title(Component.translatable("itemGroup.rainbowChristmas"))
-                                                                           .build();
+    public static final CreativeModeTab RAINBOW_CHRISTMAS_GROUP = FabricCreativeModeTab.builder()
+                                                                                       .icon(() -> new ItemStack(ModBlocks.STAR_TOPPER.asItem()))
+                                                                                       .title(Component.translatable("itemGroup.rainbowChristmas"))
+                                                                                       .build();
 
 
     public static final Item WHITE_FESTIVE_HAT = registerFestiveHat("white");
@@ -145,7 +145,7 @@ public class ModItems {
     }
 
     public static Item register(Item item, String name) {
-        ItemGroupEvents.modifyEntriesEvent(RAINBOW_CHRISTMAS_GROUP_KEY).register((itemGroup) -> itemGroup.accept(item));
+        CreativeModeTabEvents.modifyOutputEvent(RAINBOW_CHRISTMAS_GROUP_KEY).register((itemGroup) -> itemGroup.accept(item));
         Identifier id = RainbowChristmas.id(name);
         return Registry.register(BuiltInRegistries.ITEM, id, item);
     }

@@ -3,11 +3,8 @@ package poeticrainbow.rainbowchristmas.gen;
 import net.fabricmc.fabric.api.client.datagen.v1.provider.FabricModelProvider;
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider;
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
-import net.fabricmc.fabric.api.datagen.v1.provider.SimpleFabricLootTableProvider;
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
+import net.fabricmc.fabric.api.datagen.v1.provider.*;
 import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
 import net.minecraft.client.data.models.BlockModelGenerators;
 import net.minecraft.client.data.models.ItemModelGenerators;
@@ -27,6 +24,7 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.CookingBookCategory;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
@@ -61,7 +59,7 @@ public class ModDataGenerator implements DataGeneratorEntrypoint {
     }
 
     public static class ModModels extends FabricModelProvider {
-        public ModModels(FabricDataOutput output) {
+        public ModModels(FabricPackOutput output) {
             super(output);
         }
 
@@ -128,18 +126,18 @@ public class ModDataGenerator implements DataGeneratorEntrypoint {
         }
     }
 
-    public static class ModBlockTags extends FabricTagProvider.BlockTagProvider {
+    public static class ModBlockTags extends FabricTagsProvider.BlockTagsProvider {
         public static final TagKey<Block> PLANT_SUSTAINABLE = TagKey.create(Registries.BLOCK, RainbowChristmas.id("plant_sustainable"));
         public static final TagKey<Block> GARLAND = TagKey.create(Registries.BLOCK, RainbowChristmas.id("garland"));
 
-        public ModBlockTags(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
+        public ModBlockTags(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
             super(output, registriesFuture);
         }
 
         @Override
         protected void addTags(HolderLookup.@NotNull Provider wrapperLookup) {
             valueLookupBuilder(PLANT_SUSTAINABLE).add(ModBlocks.CHRISTMAS_TREE_STAND);
-            valueLookupBuilder(BlockTags.DRY_VEGETATION_MAY_PLACE_ON).add(ModBlocks.CHRISTMAS_TREE_STAND);
+            valueLookupBuilder(BlockTags.SUPPORTS_DRY_VEGETATION).add(ModBlocks.CHRISTMAS_TREE_STAND);
 
             // Leaves
             var leavesBuilder = valueLookupBuilder(BlockTags.LEAVES);
@@ -181,12 +179,12 @@ public class ModDataGenerator implements DataGeneratorEntrypoint {
         }
     }
 
-    public static class ModItemTags extends FabricTagProvider.ItemTagProvider {
+    public static class ModItemTags extends FabricTagsProvider.ItemTagsProvider {
         public static final TagKey<Item> ORNAMENT = TagKey.create(Registries.ITEM, RainbowChristmas.id("ornament"));
         public static final TagKey<Item> GARLAND = TagKey.create(Registries.ITEM, RainbowChristmas.id("garland"));
         public static final TagKey<Item> ICE = TagKey.create(Registries.ITEM, RainbowChristmas.id("ice"));
 
-        public ModItemTags(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
+        public ModItemTags(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
             super(output, registriesFuture);
         }
 
@@ -207,7 +205,7 @@ public class ModDataGenerator implements DataGeneratorEntrypoint {
     }
 
     public static class ModRecipes extends FabricRecipeProvider {
-        public ModRecipes(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
+        public ModRecipes(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
             super(output, registriesFuture);
         }
 
@@ -387,7 +385,7 @@ public class ModDataGenerator implements DataGeneratorEntrypoint {
                             .save(output);
 
                     // Hard Candy Item
-                    SimpleCookingRecipeBuilder.smelting(Ingredient.of(Items.SUGAR), RecipeCategory.FOOD, ModItems.HARD_CANDY, 0f, 200)
+                    SimpleCookingRecipeBuilder.smelting(Ingredient.of(Items.SUGAR), RecipeCategory.FOOD, CookingBookCategory.FOOD, ModItems.HARD_CANDY, 0f, 200)
                             .unlockedBy(getHasName(Items.SUGAR), has(Items.SUGAR))
                             .save(output);
                     SimpleCookingRecipeBuilder.smoking(Ingredient.of(Items.SUGAR), RecipeCategory.FOOD, ModItems.HARD_CANDY, 0f, 100)
@@ -410,7 +408,7 @@ public class ModDataGenerator implements DataGeneratorEntrypoint {
                             .unlockedBy(getHasName(Items.MILK_BUCKET), has(Items.MILK_BUCKET))
                             .save(output);
 
-                    SimpleCookingRecipeBuilder.smelting(Ingredient.of(ModItems.CHOCOLATE_MILK_BUCKET), RecipeCategory.FOOD, ModItems.HOT_CHOCOLATE_BUCKET,
+                    SimpleCookingRecipeBuilder.smelting(Ingredient.of(ModItems.CHOCOLATE_MILK_BUCKET), RecipeCategory.FOOD, CookingBookCategory.FOOD, ModItems.HOT_CHOCOLATE_BUCKET,
                                     0f, 200)
                             .unlockedBy(getHasName(ModItems.CHOCOLATE_MILK_BUCKET), has(ModItems.CHOCOLATE_MILK_BUCKET))
                             .save(output);
@@ -607,10 +605,11 @@ public class ModDataGenerator implements DataGeneratorEntrypoint {
         }
     }
 
-    public static class ModBlockLootTables extends FabricBlockLootTableProvider {
-        protected ModBlockLootTables(FabricDataOutput dataOutput, CompletableFuture<HolderLookup.Provider> registryLookup) {
+    public static class ModBlockLootTables extends FabricBlockLootSubProvider {
+        protected ModBlockLootTables(FabricPackOutput dataOutput, CompletableFuture<HolderLookup.Provider> registryLookup) {
             super(dataOutput, registryLookup);
         }
+
 
         @Override
         public void generate() {
@@ -652,8 +651,8 @@ public class ModDataGenerator implements DataGeneratorEntrypoint {
         }
     }
 
-    public static class ModChestLootTables extends SimpleFabricLootTableProvider {
-        public ModChestLootTables(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registryLookup) {
+    public static class ModChestLootTables extends SimpleFabricLootTableSubProvider {
+        public ModChestLootTables(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registryLookup) {
             super(output, registryLookup, LootContextParamSets.CHEST);
         }
 

@@ -3,10 +3,8 @@ package poeticrainbow.rainbowchristmas;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
-import net.fabricmc.fabric.api.client.rendering.v1.BlockRenderLayerMap;
-import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
+import net.fabricmc.fabric.api.client.rendering.v1.BlockColorRegistry;
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.renderer.chunk.ChunkSectionLayer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.resources.Identifier;
@@ -19,6 +17,8 @@ import poeticrainbow.rainbowchristmas.registry.ModItems;
 import poeticrainbow.rainbowchristmas.registry.ModMisc;
 import poeticrainbow.rainbowchristmas.registry.TooltipContainer;
 import poeticrainbow.rainbowchristmas.render.MulticolorProvider;
+
+import java.util.List;
 
 public class RainbowChristmas implements ModInitializer, ClientModInitializer {
     public static String MOD_ID = "rainbowchristmas";
@@ -36,20 +36,8 @@ public class RainbowChristmas implements ModInitializer, ClientModInitializer {
     public void onInitializeClient() {
         LOGGER.info("Giving your client a little holiday spirit!");
         //ColorProviderRegistry.ITEM.register(MulticolorProvider::rainbowItemColorProvider, ModBlocks.RAINBOW_HOLIDAY_LEAVES.asItem());
-        ColorProviderRegistry.BLOCK.register(MulticolorProvider::holidayLeavesBlockColorProvider, ModBlocks.RAINBOW_HOLIDAY_LEAVES);
+        BlockColorRegistry.register(List.of(new MulticolorProvider.RainbowColorProvider()), ModBlocks.RAINBOW_HOLIDAY_LEAVES);
 
-        BlockRenderLayerMap.putBlock(ModBlocks.CHRISTMAS_TREE_STAND, ChunkSectionLayer.CUTOUT);
-        BlockRenderLayerMap.putBlock(ModBlocks.FAUX_SNOW, ChunkSectionLayer.CUTOUT);
-        BlockRenderLayerMap.putBlock(ModBlocks.MISTLETOE, ChunkSectionLayer.CUTOUT);
-        BlockRenderLayerMap.putBlock(ModBlocks.WREATH, ChunkSectionLayer.CUTOUT);
-        BlockRenderLayerMap.putBlock(ModBlocks.STAR_TOPPER, ChunkSectionLayer.CUTOUT);
-        BlockRenderLayerMap.putBlock(ModBlocks.ICICLE, ChunkSectionLayer.CUTOUT);
-        BlockRenderLayerMap.putBlock(ModBlocks.NORTH_POLE, ChunkSectionLayer.CUTOUT);
-
-        ModBlocks.ORNAMENTS.forEach(block -> BlockRenderLayerMap.putBlock(block, ChunkSectionLayer.CUTOUT));
-        ModBlocks.GARLANDS.forEach(block -> BlockRenderLayerMap.putBlock(block, ChunkSectionLayer.CUTOUT));
-        ModBlocks.CHRISTMAS_LIGHTS.forEach(block -> BlockRenderLayerMap.putBlock(block, ChunkSectionLayer.CUTOUT));
-        ModBlocks.HOLIDAY_LEAVES.forEach(block -> BlockRenderLayerMap.putBlock(block, ChunkSectionLayer.CUTOUT));
 
         ItemTooltipCallback.EVENT.register((stack, context, tooltipType, list) -> {
             var container = getTooltipContainerFromStack(stack);

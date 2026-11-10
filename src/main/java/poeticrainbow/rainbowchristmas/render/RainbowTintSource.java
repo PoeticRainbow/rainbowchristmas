@@ -8,6 +8,7 @@ import net.minecraft.util.ExtraCodecs;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
 
 public record RainbowTintSource(int defaultColor) implements ItemTintSource {
     public static final MapCodec<RainbowTintSource> CODEC = RecordCodecBuilder.mapCodec((instance) ->
@@ -18,7 +19,7 @@ public record RainbowTintSource(int defaultColor) implements ItemTintSource {
     }
 
     @Override
-    public MapCodec<? extends ItemTintSource> type() {
+    public @NonNull MapCodec<? extends ItemTintSource> type() {
         return CODEC;
     }
 
